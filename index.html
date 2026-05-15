@@ -3892,14 +3892,63 @@ $('#btnTrophy').addEventListener('click',()=>{state.phase='trophies';render()});
 $('#roleModal').addEventListener('click',e=>{if(e.target.id==='roleModal')closeRoleModal()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('#roleModal').classList.contains('show'))closeRoleModal()}});
 
-state.phase='intro';render();
-// TEST SAVE
+// =========================
+// SAVE / LOAD SYSTEM
+// =========================
 
-localStorage.setItem("test", "Hallo Spieler")
+function saveGame(){
 
-console.log(
-  localStorage.getItem("test")
-)
+  const saveData = {
+    state: state
+  }
+
+  localStorage.setItem(
+    'tacticRogueSave',
+    JSON.stringify(saveData)
+  )
+
+  console.log('Spiel gespeichert')
+}
+
+
+function loadGame(){
+
+  const savedGame = localStorage.getItem(
+    'tacticRogueSave'
+  )
+
+  if(savedGame){
+
+    const parsedSave = JSON.parse(savedGame)
+
+    Object.assign(state, parsedSave.state)
+
+    console.log('Spiel geladen')
+
+  }else{
+
+    console.log('Kein Save gefunden')
+
+  }
+
+}
+
+
+// SPIEL LADEN
+loadGame()
+
+
+// FALLS KEIN SAVE EXISTIERT
+if(!state.phase){
+  state.phase='intro'
+}
+
+
+render()
+
+
+// AUTOMATISCH SPEICHERN
+setInterval(saveGame, 3000)
 </script>
 </body>
 </html>
