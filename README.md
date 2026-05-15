@@ -1,6 +1,12 @@
 # Tactic Rogue
 
-Browser-based football roguelike tactics game.
+Football Roguelike Tactics Game
 
-Play here:
+## Play
 https://lukibo01.github.io/TacticRogue/
+
+## Features
+- Tactical football roguelike
+- Draft system
+- Team building
+- Match simulation
