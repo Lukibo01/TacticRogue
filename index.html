@@ -3936,14 +3936,43 @@ function loadGame(){
 
 // SPIEL LADEN
 loadGame()
-console.log(state)
+function loadGame(){
 
-// FALLS KEIN SAVE EXISTIERT
-if(!state.phase){
-  state.phase='intro'
+  const savedGame =
+    localStorage.getItem(
+      'tacticRogueSave'
+    )
+
+  if(!savedGame){
+    return
+  }
+
+  const data =
+    JSON.parse(savedGame)
+
+  // WICHTIG:
+  // Erst normales Spiel erzeugen
+
+  startNewGame()
+
+  // DANN NUR WICHTIGE DATEN ÜBERSCHREIBEN
+
+  if(data.team)
+    state.team = data.team
+
+  if(data.bench)
+    state.bench = data.bench
+
+  if(data.trophies)
+    state.trophies = data.trophies
+
+  if(data.league)
+    state.league = data.league
+
+  if(data.phase)
+    state.phase = data.phase
+
 }
-
-
 render()
 
 
