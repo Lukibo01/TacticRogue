@@ -1629,233 +1629,209 @@ input,select,textarea{font-family:inherit}
    ═══════════════════════════════════════════════════════════════════════════ */
 @media screen and (max-width:1024px) and (orientation:landscape) and (pointer:coarse){
 
-  /* ── Viewport fix for mobile browsers ── */
+  /* ── Viewport ── */
   html,body{overflow:hidden;height:100%;width:100%;}
 
-  /* ── Header: compact ── */
-  .header{height:40px;padding:0 12px;gap:8px;}
+  /* ── Header ── */
+  .header{height:40px;padding:0 10px;gap:8px;}
   .brand-logo{width:26px;height:26px;}
   .brand-wordmark-top{font-size:11px;letter-spacing:1.5px;}
   .brand-wordmark-sub{display:none;}
-  .league-banner{min-width:160px;padding:4px 14px;border-radius:7px;gap:1px;}
+  .league-banner{min-width:140px;padding:3px 12px;border-radius:7px;gap:1px;}
   .league-name{font-size:10px;letter-spacing:1.5px;}
-  .league-progress{font-size:9px;gap:5px;}
+  .league-progress{font-size:9px;gap:4px;}
   .league-pip{width:7px;height:7px;}
-  /* Hide secondary toolbar buttons — keep Music + Restart only */
-  #btnRanking,#btnCollection,#btnTrophy{display:none;}
-  .hdr-sep{display:none;}
+  #btnRanking,#btnCollection,#btnTrophy,#btnBugReport,.hdr-sep{display:none;}
   .btn-hdr{font-size:10px;padding:4px 9px;}
-  #btnBugReport{display:none;}
+
+  /* ── Global buttons ── */
+  /* CTA main: override !important from desktop */
+  .btn-cta-main{padding:9px 22px!important;font-size:13px!important;border-radius:9px!important;}
+  .btn.large{padding:8px 16px;font-size:12px;border-radius:8px;}
+  .btn{font-size:11px;padding:6px 12px;}
 
   /* ── Intro screen ── */
   .intro-wrap{flex-direction:row;}
-  .intro-left{padding:10px 16px;justify-content:center;gap:8px;min-width:0;flex:0 0 52%;}
-  .intro-tag{font-size:8px;letter-spacing:2px;margin-bottom:2px;}
-  .intro-title{font-size:20px;line-height:1.15;margin-bottom:4px;}
-  .intro-sub{font-size:10px;line-height:1.4;margin-bottom:6px;}
+  .intro-left{padding:8px 14px;justify-content:center;gap:6px;flex:0 0 52%;}
+  .intro-tag{font-size:8px;letter-spacing:2px;margin-bottom:1px;}
+  .intro-title{font-size:clamp(16px,4svh,22px);line-height:1.15;margin-bottom:3px;}
+  .intro-sub{font-size:10px;line-height:1.4;margin-bottom:4px;}
   .intro-btns{gap:6px;}
-  .btn.large{padding:8px 16px;font-size:11px;}
   .intro-lvl-wrap{margin-bottom:4px;}
   .intro-lvl-num{font-size:14px;}
   .intro-xp-bar{height:3px;}
   .intro-xp-text{font-size:8px;}
-  /* Hide collection progress bar on mobile to save space */
   .intro-collection-progress{display:none;}
   .intro-collection-wrap{max-width:100%;}
   .intro-right-wrap{width:48%;}
 
   /* ── Result screen ── */
-  .result-phase-v2{padding:8px 14px 8px;gap:6px;}
-  .result-hero{padding-bottom:8px;}
-  .result-score-v2{font-size:44px;letter-spacing:3px;}
-  .result-hero-center{padding:0 10px;gap:3px;}
-  .result-badge-label{font-size:9px;padding:3px 10px;}
-  .result-hero-avg{font-size:12px;}
+  .result-phase-v2{padding:6px 12px 6px;gap:5px;}
+  .result-hero{padding-bottom:6px;}
+  .result-score-v2{font-size:clamp(32px,8.5svh,48px);letter-spacing:2px;}
+  .result-hero-center{padding:0 8px;gap:2px;}
+  .result-badge-label{font-size:9px;padding:2px 8px;}
+  .result-hero-avg{font-size:11px;}
   .result-hero-team-name{font-size:9px;}
   .result-scorer-line{font-size:10px;}
-  .result-score-scorers{max-width:72px;}
-  .rss-item{padding:7px 6px;gap:2px;}
-  .rss-val{font-size:18px;}
-  .rss-label{font-size:8px;letter-spacing:.8px;}
-  .result-tactic-panels{flex-direction:row;flex-wrap:nowrap;}
-  .rtp-panel{max-height:80px;overflow-y:auto;}
-  .rtp-item{font-size:11px;padding:2px 0;}
-  .rtp-head{font-size:9px;margin-bottom:3px;}
+  .result-score-scorers{max-width:70px;}
+  .rss-item{padding:5px 6px;gap:2px;}
+  .rss-val{font-size:clamp(14px,4svh,20px);}
+  .rss-label{font-size:8px;letter-spacing:.6px;}
+  .result-tactic-section,.result-gamechanger-v2,.result-progressions{display:none;}
   .result-actions-v2{padding-top:2px;gap:8px;}
-  .btn-cta-main{padding:8px 16px;font-size:12px;}
-  .result-xp-strip{padding:6px 10px;margin:2px auto;}
+  .result-xp-strip{padding:5px 10px;margin:2px auto;}
   .result-xp-badge{font-size:11px;}
-  /* Hide tactic analysis panels on mobile to save space */
-  .result-tactic-section{display:none;}
-  .result-gamechanger-v2{display:none;}
-  /* Progressions also hidden */
-  .result-progressions{display:none;}
+  .result-lvlup-chip{font-size:10px;}
 
   /* ── Draft screen ── */
   .draft-phase.phase{padding:0;}
-  .draft-center-block{padding:8px 0 4px;gap:10px;}
-  .draft-center-block.has-skip{padding-bottom:4px;}
-  .draft-pick-banner{gap:4px;padding:0 16px;}
+  .draft-center-block{padding:6px 0 3px;gap:8px;}
+  .draft-center-block.has-skip{padding-bottom:3px;}
+  .draft-pick-banner{gap:3px;padding:0 12px;}
   .draft-pick-instruction{font-size:10px;}
-  .draft-pick-slot{font-size:10px;gap:5px;padding:3px 10px;}
-  .draft-footer{padding:4px 16px 6px;gap:4px;}
+  .draft-pick-slot{font-size:10px;gap:4px;padding:3px 10px;}
+  .draft-footer{padding:3px 12px 5px;gap:3px;}
   .draft-prob-wrap{flex-wrap:wrap;gap:2px;}
-  /* Scale down cards to fit landscape height — zoom affects layout unlike transform:scale */
-  .draft-card-wrap{zoom:0.72;width:222px;height:338px;}
-  .draft-cards{gap:14px;padding:0 24px;}
-  .draft-cards-scroll{padding:0 24px 8px;}
+  /* Cards: scale to fill available height (svh - header - banner - footer ≈ svh - 140px) */
+  .draft-card-wrap{width:222px;height:338px;zoom:clamp(0.58,calc((100svh - 150px) / 338px),0.82);}
+  .draft-cards{gap:12px;padding:0 20px;}
+  .draft-cards-scroll{padding:0 20px 6px;}
   .draft-skip-below{margin-top:2px;}
-  .btn-draft-skip{font-size:9px;padding:4px 12px;}
+  .btn-draft-skip{font-size:9px;padding:4px 10px;}
 
   /* ── Tactics screen ── */
-  .tactics-phase{padding:6px 10px 0;}
-  .tactics-columns{gap:8px;}
-  .tactics-cta-bar{height:46px;margin:0 -10px;}
-  /* Team cards (left + right columns) */
-  .team-card{padding:8px;gap:6px;border-radius:8px;}
-  .team-header{padding-bottom:5px;}
+  .tactics-phase{padding:5px 8px 0;}
+  .tactics-columns{gap:7px;}
+  .tactics-cta-bar{height:44px;margin:0 -8px;}
+  .team-card{padding:7px;gap:5px;border-radius:8px;}
+  .team-header{padding-bottom:4px;}
   .team-name{font-size:11px;}
-  .team-rating{font-size:16px;}
+  .team-rating{font-size:15px;}
   .team-meta{font-size:10px;}
-  .mini-pitch{max-height:160px;}
-  .mini-token{width:22px;height:29px;border-radius:3px;}
-  .mtoken-strip{height:5px;}
-  .mtoken-rating{font-size:10px;}
-  /* Tactic middle column */
-  .tac-tabs{margin-bottom:6px;}
-  .tac-tab{padding:5px;font-size:9px;}
-  .tac-tabs3{margin-bottom:7px;padding:3px;gap:2px;}
-  .tac-phase-title{font-size:9px;margin-bottom:5px;}
-  .tac-phase-group{gap:8px;}
-  /* Tac rows: smaller font + tighter spacing */
-  .tac-row{grid-template-columns:110px 1fr minmax(80px,auto);font-size:11px;margin-bottom:7px;gap:5px;}
+  .mini-pitch{max-height:clamp(130px,33svh,180px);}
+  .mini-token{width:20px;height:27px;border-radius:3px;}
+  .mtoken-strip{height:4px;}
+  .mtoken-rating{font-size:9px;}
+  .tac-tabs{margin-bottom:5px;}
+  .tac-tab{padding:4px;font-size:9px;}
+  .tac-tabs3{margin-bottom:6px;padding:3px;gap:2px;}
+  .tac-phase-title{font-size:9px;margin-bottom:4px;}
+  .tac-phase-group{gap:7px;}
+  .tac-row{grid-template-columns:100px 1fr minmax(75px,auto);font-size:11px;margin-bottom:6px;gap:4px;}
   .tac-row .label{font-size:11px;}
   .tac-row .value{font-size:10px;}
   .tac-row input[type=range]{height:4px;}
-  .tac-row input[type=range]::-webkit-slider-thumb{width:14px;height:14px;}
-  /* Intensitätsleiste compact */
-  .intens-wrap{padding:4px 0 7px;}
+  .tac-row input[type=range]::-webkit-slider-thumb{width:13px;height:13px;}
+  .intens-wrap{padding:3px 0 6px;}
   .intens-lbl{font-size:9px;}
-  .intens-val{font-size:11px;}
-  .intens-track{height:5px;margin-bottom:3px;}
+  .intens-val{font-size:10px;}
+  .intens-track{height:5px;margin-bottom:2px;}
   .intens-hint{font-size:9px;}
-  /* Tactics scrollable mid column */
   .tactics-mid{overflow-y:auto;}
-  /* Hide saved tactics strip on mobile */
   .saved-tac-strip{display:none;}
 
   /* ── Match screen ── */
-  .match-phase{padding:6px 8px;}
-  .match-main-row{gap:6px;}
-  /* Scoreboard: compact */
-  .match-scoreboard{padding:6px 10px;border-radius:8px;}
-  .score-value{font-size:32px;}
-  .score-colon{font-size:30px;}
-  .score-team-name{font-size:9px;letter-spacing:.8px;}
+  .match-phase{padding:5px 7px;}
+  .match-main-row{gap:5px;}
+  .match-scoreboard{padding:5px 8px;border-radius:8px;}
+  .score-value{font-size:clamp(24px,7svh,36px);}
+  .score-colon{font-size:clamp(22px,6.5svh,34px);}
+  .score-team-name{font-size:9px;letter-spacing:.6px;}
   .score-avg{font-size:9px;}
-  .match-clock{font-size:12px;letter-spacing:2px;}
-  .score-main{gap:12px;}
-  .score-team-block{min-width:80px;}
+  .match-clock{font-size:11px;letter-spacing:1.5px;}
+  .score-main{gap:10px;}
+  .score-team-block{min-width:70px;}
   .score-center-block{gap:1px;}
-  /* Speed/skip buttons: smaller */
-  .speed-btn{font-size:10px;padding:4px 10px;min-width:36px;}
-  .skip-btn{font-size:10px;padding:4px 10px;}
-  /* Hide side panels — pitch fills full width */
-  .match-ticker{display:none;}
-  .match-stats-side{display:none;}
-  /* Pitch fills all available space */
+  .speed-btn{font-size:10px;padding:4px 9px;min-width:32px;}
+  .skip-btn{font-size:10px;padding:4px 9px;}
+  .match-ticker,.match-stats-side{display:none;}
   .match-bottom{gap:0;}
   .match-field-wrap{width:100%;}
-  .match-field{width:96%;}
-
-  /* ── Lineup screen ── */
-  /* Topbar: compress height, hide secondary stats */
-  .lineup-topbar{height:34px;padding:0 10px;}
-  .lineup-topbar-label{display:none;}
-  .lineup-stat-value{font-size:12px;}
-  .lineup-stat-value.accent{font-size:20px;letter-spacing:-.5px;}
-  .lineup-stat-label{font-size:7px;}
-  .lineup-topbar-stats{gap:10px;}
-  .lineup-topbar-right{gap:10px;}
-  /* Hide formation dropdown label on mobile */
-  .fmt-drop-btn{padding:5px 10px;min-width:110px;border-radius:7px;}
-  .fmt-drop-val{font-size:12px;}
-  /* CTA bar */
-  .lineup-cta-bar{height:44px;}
-  /* Pitch slot tokens: scale down to ~60% */
-  .lineup-phase .slot-token{width:54px;height:72px;border-radius:7px;}
-  .lineup-phase .stoken-rating{font-size:21px;}
-  .lineup-phase .stoken-flag{font-size:13px;}
-  .lineup-phase .stoken-strip{width:10px;}
-  .lineup-phase .stoken-strip-pos{font-size:7px;}
-  .lineup-phase .stoken-stage-chip{font-size:5.5px;padding:1px 3px;}
-  .lineup-phase .stoken-main{gap:1px;}
-  /* Slot name + pos chip below token */
-  .lineup-slot-name{font-size:9px;}
-  .lineup-slot-pos-chip{font-size:8px;padding:1px 4px;}
-  .lineup-slot{gap:1px;}
-  .lineup-slot-shadow{display:none;}
-  /* Bench panel: narrower */
-  .lineup-bench-panel{width:130px;padding:10px 6px 8px;gap:2px;}
-  .lineup-bench-panel .slot-token{width:54px;height:72px;border-radius:7px;}
-  .lineup-bench-panel .stoken-rating{font-size:21px;}
-  .lineup-bench-panel .stoken-flag{font-size:13px;}
-  .lineup-bench-panel .stoken-strip{width:10px;}
-  .lineup-bench-panel-name{font-size:9px;max-width:110px;}
-  .lineup-bench-panel-slot{padding:6px 0;gap:3px;}
-  /* Unavailable banner compact */
-  .unavail-banner{padding:7px 10px;}
-  .unavail-banner-text{font-size:10px;}
+  .match-field{width:97%;}
 
   /* ── Halftime modal ── */
-  .ht-modal{padding:16px 14px;border-radius:12px;width:clamp(280px,92vw,420px);}
-  .ht-badge{font-size:8px;margin-bottom:3px;}
-  .ht-title{font-size:18px;margin-bottom:12px;}
-  .ht-scoreline{padding:8px 14px;margin-bottom:6px;gap:14px;}
-  .ht-team-sc{font-size:26px;}
-  .ht-sep{font-size:20px;}
-  .ht-xg{font-size:9px;margin-bottom:12px;}
-  .ht-opts{gap:6px;}
-  .ht-opt{padding:9px 10px;border-radius:8px;}
+  .ht-modal{padding:14px 12px;border-radius:12px;width:clamp(260px,90vw,400px);}
+  .ht-badge{font-size:8px;margin-bottom:2px;}
+  .ht-title{font-size:clamp(14px,4svh,20px);margin-bottom:10px;}
+  .ht-scoreline{padding:7px 12px;margin-bottom:5px;gap:12px;}
+  .ht-team-sc{font-size:clamp(20px,6svh,30px);}
+  .ht-sep{font-size:clamp(16px,5svh,24px);}
+  .ht-xg{font-size:9px;margin-bottom:10px;}
+  .ht-opts{gap:5px;}
+  .ht-opt{padding:8px 9px;border-radius:8px;}
   .ht-opt-lbl{font-size:11px;margin-bottom:2px;}
   .ht-opt-desc{font-size:9px;}
 
+  /* ── Lineup screen ── */
+  .lineup-topbar{height:32px;padding:0 8px;}
+  .lineup-topbar-label{display:none;}
+  .lineup-stat-value{font-size:clamp(11px,3svh,14px);}
+  .lineup-stat-value.accent{font-size:clamp(16px,4.5svh,22px);letter-spacing:-.5px;}
+  .lineup-stat-label{font-size:7px;}
+  .lineup-topbar-stats{gap:8px;}
+  .lineup-topbar-right{gap:8px;}
+  .fmt-drop-btn{padding:4px 8px;min-width:100px;border-radius:7px;}
+  .fmt-drop-val{font-size:11px;}
+  .lineup-cta-bar{height:42px;}
+  /* Tokens: svh-based so they scale with any phone height */
+  .lineup-phase .slot-token{
+    width:calc(13svh - 4px);
+    height:calc(17svh - 4px);
+    border-radius:max(5px,1.2svh);
+  }
+  .lineup-phase .stoken-rating{font-size:clamp(16px,4.5svh,24px);}
+  .lineup-phase .stoken-flag{font-size:clamp(10px,3svh,16px);}
+  .lineup-phase .stoken-strip{width:clamp(8px,2svh,12px);}
+  .lineup-phase .stoken-strip-pos{font-size:7px;}
+  .lineup-phase .stoken-stage-chip{font-size:5.5px;padding:1px 3px;}
+  .lineup-phase .stoken-main{gap:1px;}
+  .lineup-slot-name{font-size:clamp(8px,2svh,10px);}
+  .lineup-slot-pos-chip{font-size:8px;padding:1px 4px;}
+  .lineup-slot{gap:1px;}
+  .lineup-slot-shadow{display:none;}
+  /* Bench panel */
+  .lineup-bench-panel{width:120px;padding:8px 5px 6px;gap:2px;}
+  .lineup-bench-panel .slot-token{width:calc(13svh - 4px);height:calc(17svh - 4px);border-radius:max(5px,1.2svh);}
+  .lineup-bench-panel .stoken-rating{font-size:clamp(16px,4.5svh,24px);}
+  .lineup-bench-panel .stoken-flag{font-size:clamp(10px,3svh,16px);}
+  .lineup-bench-panel .stoken-strip{width:clamp(8px,2svh,12px);}
+  .lineup-bench-panel-name{font-size:9px;max-width:100px;}
+  .lineup-bench-panel-slot{padding:5px 0;gap:2px;}
+  .unavail-banner{padding:6px 8px;}
+  .unavail-banner-text{font-size:10px;}
+
   /* ── Pack opening ── */
-  .pack-phase{padding:10px 16px;gap:0;}
-  /* Scale pack card down to fit landscape height */
-  .pack-v2{zoom:0.68;}
-  /* Opened cards: already handled via .draft-card-wrap zoom in Step 2 */
+  .pack-phase{padding:8px 12px;}
+  .pack-v2{zoom:clamp(0.60,calc((100svh - 70px) / 442px),0.82);}
 
   /* ── Perk picker ── */
-  /* Reduce perk card size: face zoom 1.65 → 0.95, wrap dimensions accordingly */
-  .perk-card-wrap{width:170px;height:260px;}
-  .perk-card-wrap .perk-card-face{zoom:0.95;}
-  .perk-cards-row{gap:14px;}
-  /* Perk screen banner compact */
-  .draft-pick-banner{padding:0 10px;}
+  .perk-card-wrap{width:170px;height:clamp(220px,63svh,280px);}
+  .perk-card-wrap .perk-card-face{zoom:clamp(0.82,calc((100svh - 115px) / 428px),1.0);}
+  .perk-cards-row{gap:12px;}
 
   /* ── Level-up screen ── */
-  .lvlup-phase{padding:14px 12px 14px;}
+  .lvlup-phase{padding:10px 10px 12px;}
   .lvlup-pre{font-size:8px;letter-spacing:2px;}
-  .lvlup-num{font-size:56px;letter-spacing:-3px;}
-  .lvlup-sub{font-size:9px;margin-top:4px;}
-  .lvlup-pack-chips{margin:6px 0 8px;gap:5px;}
-  .lvlup-pack-chip{font-size:8px;padding:3px 8px;}
-  .lvlup-cards-label{font-size:8px;margin-bottom:4px;}
+  .lvlup-num{font-size:clamp(44px,12svh,70px);letter-spacing:-3px;}
+  .lvlup-sub{font-size:9px;margin-top:3px;}
+  .lvlup-pack-chips{margin:5px 0 7px;gap:4px;}
+  .lvlup-pack-chip{font-size:8px;padding:3px 7px;}
+  .lvlup-cards-label{font-size:8px;margin-bottom:3px;}
 
   /* ── Ranking screen ── */
-  .ranking-phase{padding:10px 12px;}
+  .ranking-phase{padding:8px 10px;}
   .ranking-title{font-size:14px;margin-bottom:2px;}
-  .ranking-sub{font-size:9px;margin-bottom:10px;}
-  .ranking-name-row{margin-bottom:10px;gap:6px;}
+  .ranking-sub{font-size:9px;margin-bottom:8px;}
+  .ranking-name-row{margin-bottom:8px;gap:5px;}
   .ranking-name-input{font-size:11px;padding:6px 10px;border-radius:8px;}
   .ranking-name-save{font-size:9px;padding:6px 10px;border-radius:8px;}
-  .ranking-row{padding:6px 10px;border-radius:8px;}
+  .ranking-row{padding:5px 9px;border-radius:7px;}
   .rank-name{font-size:11px;}
   .rank-lvl{font-size:11px;}
   .rank-pos{font-size:11px;width:22px;}
   .rank-xp{font-size:9px;}
-  .ranking-loading{padding:16px;font-size:11px;}
+  .ranking-loading{padding:14px;font-size:11px;}
 
 }
 </style>
