@@ -357,6 +357,16 @@ input,select,textarea{font-family:inherit}
   justify-content:center;align-items:center;
   padding:0 40px;overflow:visible;
 }
+/* Scrollable draft row when cards exceed viewport */
+.draft-cards-scroll{
+  overflow-x:auto;overflow-y:visible;
+  scrollbar-width:none;-ms-overflow-style:none;
+  padding:0 40px 12px;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,black 5%,black 95%,transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0%,black 5%,black 95%,transparent 100%);
+}
+.draft-cards-scroll::-webkit-scrollbar{display:none;}
+.draft-cards-scroll .draft-cards{justify-content:flex-start;padding:0;overflow:visible;}
 .draft-card-wrap{
   display:flex;flex-direction:column;align-items:center;
   /* zoom:1.32 on the card makes it 222×338 in layout — wrap matches exactly */
@@ -883,7 +893,7 @@ input,select,textarea{font-family:inherit}
 .tac-phase-group{display:flex;flex-direction:column;gap:14px}
 .tac-phase.ball-phase{border-left:none}
 .tac-phase.noball-phase{border-left:none}
-.tac-row{display:grid;grid-template-columns:155px 1fr 110px;align-items:center;gap:8px;font-size:14px;margin-bottom:13px;white-space:nowrap}
+.tac-row{display:grid;grid-template-columns:155px 1fr minmax(110px,auto);align-items:center;gap:8px;font-size:14px;margin-bottom:13px;white-space:nowrap}
 
 /* Intensitätsleiste */
 .intens-wrap{padding:7px 0 12px;border-bottom:1px solid var(--border);flex-shrink:0}
@@ -904,7 +914,7 @@ input,select,textarea{font-family:inherit}
 .tac-phase.att .tac-phase-title::before{background:var(--accent)}
 .tac-row{display:grid;grid-template-columns:155px 1fr 110px;align-items:center;gap:8px;font-size:14px;margin-bottom:13px}
 .tac-row .label{color:var(--text-dim);font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tac-row .value{text-align:right;color:var(--accent);font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden}
+.tac-row .value{text-align:right;color:var(--accent);font-weight:700;font-size:12px;white-space:nowrap;overflow:visible}
 .tac-row input[type=range]{width:100%;height:6px;background:var(--bg-3);border-radius:3px;appearance:none;outline:none;accent-color:var(--accent)}
 .tac-row input[type=range]::-webkit-slider-thumb{appearance:none;width:18px;height:18px;background:var(--accent);border-radius:50%;cursor:pointer;border:2px solid var(--bg-2);box-shadow:0 0 6px rgba(94,194,106,.4)}
 .tac-display{display:grid;grid-template-columns:100px 1fr;gap:5px;font-size:12px;padding:3px 0}
@@ -1975,7 +1985,7 @@ const TACTIC_PHASES=[
     ['pressingAusloesung','Pressingausl.',['Sehr selten','Selten','Standard','Häufig','Sehr häufig']],
     ['defensivBreite','Def. Breite',['Sehr kompakt','Kompakt','Standard','Breit','Flügel sichern']],
     ['nachBallverlust','Nach Ballverlust',['Fallen lassen','Eher tief','Standard','Eher pressen','Gegenpressing']],
-    ['gegnerFlanken','Gegner-Flanken',['Zulassen','Eher zulassen','Ausgewogen','Eher verh.','Verhindern']],
+    ['gegnerFlanken','Gegner-Flanken',['Zulassen','Eher zulassen','Ausgewogen','Eher verhindern','Verhindern']],
     ['deckung','Deckung',['Zonendeckung','Eher Zone','Ausgewogen','Eher Mann','Manndeckung']],
     ['nachBalleroberung','Nach Balleroberung',['Ruhig aufbauen','Eher aufbauen','Ausgewogen','Eher kontern','Schnell kontern']],
   ]},
@@ -2699,6 +2709,7 @@ const state={
   perks: [],
   pendingPerkPick: false,
   perkState: {glückssträhne:0,aufsteigerGames:0,routinierLeagues:0,serioesStreak:0,serioesBuff:false,comebackBuff:false,goldenerGriffActive:false,tauschUsed:0},
+  permanentExtraCards:0,
   playerLevel:1,playerXP:0,
   xpGainedThisRun:0,levelUpsThisRun:[],
   pendingLevelRewards:[],
@@ -2855,7 +2866,12 @@ function generatePackCards(li){
   return cards;
 }
 function afterPackDone(){
-  if(state.afterPack==='replace-draft'){generateReplaceCards();state.phase='replace-draft';render()}
+  state.packCards=[];
+  if(state.afterPack==='replace-draft'){maybeShowRandomEvent(()=>{generateReplaceCards();state.phase='replace-draft';render()})}
+  else if(state.afterPack==='perk-or-draft'){
+    if(state.pendingPerkPick){state.phase='perk-pick';render();}
+    else{maybeShowRandomEvent(()=>{generateReplaceCards();state.phase='replace-draft';render();});}
+  }
   else if(state.afterPack==='victory'){state.phase='victory';render()}
   else{startNewGame()}
 }
@@ -3039,16 +3055,21 @@ const RANDOM_EVENTS=[
     desc:'Ein Agent bietet überraschend viele Spieler gleichzeitig an — eine Chance die man nutzen muss.',
     effect:'Nächster Draft: 7 statt 5 Karten zur Auswahl',
     apply(cb){state.eventBuff={...(state.eventBuff||{}),extraCards:((state.eventBuff||{}).extraCards||0)+2};cb();}},
+  {id:'scoutingnetzwerk',type:'pos',kind:'simple',label:'Scouting',title:'Scouting-Netzwerk',
+    desc:'Dein Trainerteam hat ein dichtes Scouting-Netzwerk aufgebaut — ab sofort kommen mehr Optionen rein.',
+    effect:'Ab sofort: immer 6 Karten pro Draft (permanent für diesen Run)',
+    isValid(){return state.permanentExtraCards===0;},
+    apply(cb){state.permanentExtraCards=1;cb();}},
   {id:'wunderkind',type:'pos',kind:'simple',label:'Talent',title:'Wunderkind',
     desc:'Dein jüngster Spieler durchbricht eine Entwicklungsbarriere und macht einen echten Sprung nach vorne.',
     effect:'Jüngster Spieler im Kader: permanent +3 Rating',
-    apply(cb){const ps=Object.values(state.team).filter(Boolean).sort((a,b)=>(a.age||25)-(b.age||25));if(ps.length){const p=ps[0];p.rating=Math.min(99,p.rating+3);p.rarity=ratingToRarity(p.rating);}cb();}},
+    apply(cb){const ps=Object.values(state.team).filter(p=>p&&p.rarity!=='mythic').sort((a,b)=>(a.age||25)-(b.age||25));if(ps.length){const p=ps[0];p.rating=Math.min(99,p.rating+3);p.rarity=ratingToRarity(p.rating);}cb();}},
   {id:'geheimtraining',type:'pos',kind:'picker',label:'Training',title:'Geheimtraining',
     desc:'Eine intensive Zusatzeinheit zahlt sich aus. Wähle einen Spieler deiner Startelf für das Einzelcoaching.',
     effect:'Gewählter Spieler: permanent +2 Rating',
     isValid(){return Object.values(state.team).some(Boolean);},
     getItems(){return Object.entries(state.team).filter(([,p])=>p).map(([sid,p])=>({id:sid,name:p.name,sub:`${p.pos} · ${p.rating}`,badge:p.rarity}));},
-    apply(cb,sid){if(sid&&state.team[sid]){const _p=state.team[sid];_p.rating=Math.min(99,_p.rating+2);_p.rarity=ratingToRarity(_p.rating);}cb();}},
+    apply(cb,sid){if(sid&&state.team[sid]&&state.team[sid].rarity!=='mythic'){const _p=state.team[sid];_p.rating=Math.min(99,_p.rating+2);_p.rarity=ratingToRarity(_p.rating);}cb();}},
   // ── NEGATIV ──────────────────────────────────────────────
   {id:'verletzung',type:'neg',kind:'simple',label:'Verletzung',title:'Verletzungssorgen',
     desc:'Einer deiner Spieler verletzt sich im Training.',
@@ -3091,9 +3112,9 @@ const RANDOM_EVENTS=[
   {id:'formdelle',type:'neg',kind:'simple',label:'Formschwäche',title:'Formdelle',
     desc:'Einer deiner Feldspieler steckt in einer Schwächephase.',
     effect:'Spieler: permanent −2 Rating',
-    isValid(){return Object.values(state.team).some(p=>p&&p.pos!=='GK');},
+    isValid(){return Object.values(state.team).some(p=>p&&p.pos!=='GK'&&p.rarity!=='mythic');},
     prepare(){
-      const ps=Object.values(state.team).filter(p=>p&&p.pos!=='GK');
+      const ps=Object.values(state.team).filter(p=>p&&p.pos!=='GK'&&p.rarity!=='mythic');
       if(ps.length)this._p=pickRand(ps);
     },
     getDesc(){return this._p?`${this._p.name} (${this._p.pos}) lässt in letzter Zeit merklich nach. Er durchlebt eine schwierige Phase und kommt nicht in seinen Rhythmus.`:'Einer deiner Feldspieler steckt in einer Schwächephase.';},
@@ -3115,7 +3136,7 @@ const RANDOM_EVENTS=[
     effect:'Wähle einen Bankspieler — er erhält permanent +3 Rating.',
     isValid(){return state.bench.some(b=>b.player);},
     getItems(){return state.bench.map((b,i)=>b.player?{id:String(i),name:b.player.name,sub:`${b.player.pos} · ${b.player.rating}`,badge:b.player.rarity}:null).filter(Boolean);},
-    apply(cb,idx){const i=Number(idx);if(!isNaN(i)&&state.bench[i]?.player){const _bp=state.bench[i].player;_bp.rating=Math.min(99,_bp.rating+3);_bp.rarity=ratingToRarity(_bp.rating);}cb();}},
+    apply(cb,idx){const i=Number(idx);if(!isNaN(i)&&state.bench[i]?.player&&state.bench[i].player.rarity!=='mythic'){const _bp=state.bench[i].player;_bp.rating=Math.min(99,_bp.rating+3);_bp.rarity=ratingToRarity(_bp.rating);}cb();}},
   {id:'taktikschulung',type:'choice',kind:'binary',label:'Analyse',title:'Taktikschulung',
     desc:'Der Co-Trainer präsentiert eine Spezialanalyse des nächsten Gegners. Du wählst den taktischen Schwerpunkt.',
     effect:'Wähle Angriffs- oder Defensiv-Fokus: +3 Taktik-Edge für das nächste Spiel.',
@@ -3235,7 +3256,12 @@ function showRandomEventModal(evt,onContinue){
     const acceptBtn=document.createElement('button');
     acceptBtn.className='rev-btn rev-btn-main';acceptBtn.textContent='Annehmen';
     acceptBtn.addEventListener('click',()=>close(()=>{
-      delete state.team[sid];
+      // Auto-replace sold player with a Rare+ player of same position
+      const _replRarities=['rare','rare','epic','legendary'];
+      const _replRar=_replRarities[Math.floor(Math.random()*_replRarities.length)];
+      const _repl=generatePlayerForPos(tp.pos,_replRar);
+      if(_repl){state.team[sid]=_repl;showToast(`${_repl.name} (${_repl.pos}) rückt nach`);}
+      else{delete state.team[sid];}
       state.eventBuff={...(state.eventBuff||{}),draftGuaranteedRare:true};
       onContinue();
     }));
@@ -4054,6 +4080,8 @@ function startNewGame(impossible=false,collectionMode=false){
   state.tactics={...DEFAULT_TACTICS};state.roles={};state.defRoles={};state.defFormation=state.formation||'4-4-2';state.savedTactics=loadSavedTactics();state.customPosMit={};state.customPosOhne={};
   state.opponent=null;state.matchResult=null;state.formation='4-3-3';
   state.eventBuff=null;state.postMatchRestore=null;
+  state.packCards=[];state.packLeague=0;state.afterPack='new-game';
+  state.permanentExtraCards=0;
   state.xpGainedThisRun=0;state.levelUpsThisRun=[];
   state.perks=[];state.pendingPerkPick=false;
   state.perkState={glückssträhne:0,aufsteigerGames:0,routinierLeagues:0,serioesStreak:0,serioesBuff:false,comebackBuff:false,goldenerGriffActive:false,tauschUsed:0};
@@ -4592,6 +4620,8 @@ function renderDraft(main){
     buildRarityProbBar(tbl,state.league,state.impossibleMode),
     buildDraftLegend()
   ]);
+  const _needsScroll=state.draftCards.length>5;
+  const _cardsContainer=_needsScroll?el('div',{class:'draft-cards-scroll'},[cardsDiv]):cardsDiv;
   const phase=el('div',{class:`phase draft-phase ${lgClass}`},[
     el('div',{class:'draft-center-block'},[
       el('div',{class:'draft-pick-banner'},[
@@ -4601,7 +4631,7 @@ function renderDraft(main){
           el('span',{},[slotLabel])
         ]),
       ]),
-      cardsDiv,
+      _cardsContainer,
     ]),
     footer
   ]);
@@ -5672,30 +5702,54 @@ function showHalftimeModal(myScore,oppScore,liveXGMy,liveXGOpp,onChoice){
   });
 }
 function applyHalftimeChoice(choice,myG,oppG,usedMins,pickScorer){
-  function newMin(){
-    let m,t=0;
-    do{m=rand(47,89);t++;}while(usedMins.has(m)&&t<40);
-    usedMins.add(m);return m;
+  function newMin(){let m,t=0;do{m=rand(47,89);t++;}while(usedMins.has(m)&&t<40);usedMins.add(m);return m;}
+
+  // All 2nd half goals sorted by minute — "next goal" = earliest
+  function get2H(){
+    return[...myG.filter(g=>g.min>45).map(g=>({...g,side:'my'})),
+           ...oppG.filter(g=>g.min>45).map(g=>({...g,side:'opp'}))]
+           .sort((a,b)=>a.min-b.min);
   }
+  function convertOppToMy(g){
+    const i=oppG.findIndex(o=>o.min===g.min);
+    if(i>=0){oppG.splice(i,1);myG.push({min:g.min,scorer:pickScorer(state.team)});myG.sort((a,b)=>a.min-b.min);}
+  }
+  function convertMyToOpp(g){
+    const i=myG.findIndex(m=>m.min===g.min);
+    if(i>=0){myG.splice(i,1);oppG.push({min:g.min,scorer:pickScorer(state.opponent.team)});oppG.sort((a,b)=>a.min-b.min);}
+  }
+  function removeOpp(g){const i=oppG.findIndex(o=>o.min===g.min);if(i>=0)oppG.splice(i,1);}
+  function removeMy(g){const i=myG.findIndex(m=>m.min===g.min);if(i>=0)myG.splice(i,1);}
+
   if(choice==='press'){
-    if(Math.random()<0.38){myG.push({min:newMin(),scorer:pickScorer(state.team)});myG.sort((a,b)=>a.min-b.min);}
-    if(Math.random()<0.22){oppG.push({min:newMin(),scorer:pickScorer(state.opponent.team)});oppG.sort((a,b)=>a.min-b.min);}
+    // 22%: next 2H opp goal → team goal (or add one if none); 12%: pressing costs a counter
+    const next=get2H()[0];
+    if(next&&next.side==='opp'&&Math.random()<0.22){convertOppToMy(next);}
+    else if(!next&&Math.random()<0.22){myG.push({min:newMin(),scorer:pickScorer(state.team)});myG.sort((a,b)=>a.min-b.min);}
+    if(Math.random()<0.12){oppG.push({min:newMin(),scorer:pickScorer(state.opponent.team)});oppG.sort((a,b)=>a.min-b.min);}
+
   }else if(choice==='def'){
-    const o2=oppG.filter(g=>g.min>45);
-    if(o2.length&&Math.random()<0.58){oppG.splice(oppG.indexOf(o2[rand(0,o2.length-1)]),1);}
-    const m2=myG.filter(g=>g.min>45);
-    if(m2.length&&Math.random()<0.32){myG.splice(myG.indexOf(m2[rand(0,m2.length-1)]),1);}
+    // 35%: next 2H opp goal removed; 18%: compactness costs an attack (remove own 2H goal)
+    const opp2=get2H().find(g=>g.side==='opp');
+    if(opp2&&Math.random()<0.35){removeOpp(opp2);}
+    const my2=get2H().find(g=>g.side==='my');
+    if(my2&&Math.random()<0.18){removeMy(my2);}
+
   }else if(choice==='risk'){
-    if(Math.random()<0.5){
-      const n=rand(1,2);
-      for(let i=0;i<n;i++)myG.push({min:newMin(),scorer:pickScorer(state.team)});
-      myG.sort((a,b)=>a.min-b.min);
-    }else{
-      const n=rand(1,2);
-      for(let i=0;i<n;i++)oppG.push({min:newMin(),scorer:pickScorer(state.opponent.team)});
-      oppG.sort((a,b)=>a.min-b.min);
+    // Next 2 combined 2H goals: 40% flip each to other side, else unchanged
+    const next2=get2H().slice(0,2);
+    next2.forEach(g=>{
+      const r=Math.random();
+      if(g.side==='opp'&&r<0.40){convertOppToMy(g);}
+      else if(g.side==='my'&&r<0.40){convertMyToOpp(g);}
+    });
+    // If fewer than 2 goals in 2H, wild-card: 40% chance one extra goal either side
+    if(next2.length<2&&Math.random()<0.40){
+      if(Math.random()<0.5){myG.push({min:newMin(),scorer:pickScorer(state.team)});myG.sort((a,b)=>a.min-b.min);}
+      else{oppG.push({min:newMin(),scorer:pickScorer(state.opponent.team)});oppG.sort((a,b)=>a.min-b.min);}
     }
   }
+  // hold: no effect
 }
 function runMatchAnimation(){
   _zoneLastDir='my';
@@ -5957,6 +6011,10 @@ function finishMatch(){
       if(hasPerk('aufsteiger_momentum'))_ps2.aufsteigerGames=2;
       _ps2.routinierLeagues=Math.min((_ps2.routinierLeagues||0)+1,4);
       state.league++;state.winsThisLeague=0;
+      // League advancement pack — colored by the NEW league
+      state.packCards=generatePackCards(state.league);
+      state.packLeague=state.league;
+      state.afterPack='perk-or-draft';
       const availPerks=PERKS.filter(p=>!state.perks.includes(p.id));
       if(availPerks.length>0){state.pendingPerkPick=true;}
       showToast('Aufstieg in '+LEAGUES[state.league].name+'!');
@@ -6076,13 +6134,16 @@ function renderResultV2(main){
   ]);
 
   // Pack only on run-ending loss (not draw).
+  const hasAdvancePack=won&&!draw&&state.packCards&&state.packCards.length>0;
   const packBtn=(!won&&!draw)?el('button',{class:'btn primary btn-cta-main',onclick:()=>{state.afterPack='new-game';state.phase='pack-opening';render();}},['Pack öffnen →']):null;
   const _afterResult=()=>{maybeShowRandomEvent(()=>{generateReplaceCards();state.phase='replace-draft';render();});};
-  const actionBtn=(won||draw)
-    ?(state.pendingPerkPick
-      ?el('button',{class:'btn primary btn-cta-main perk-glow',onclick:()=>{state.phase='perk-pick';render();}},['Aufstiegs Bonus wählen →'])
-      :el('button',{class:'btn primary btn-cta-main',onclick:_afterResult},['Karten ziehen →']))
-    :el('button',{class:'btn btn-cta-main',onclick:startNewGame},['Überspringen →']);
+  const advancePackBtn=hasAdvancePack?el('button',{class:'btn primary btn-cta-main',onclick:()=>{state.phase='pack-opening';render();}},['Liga Pack öffnen →']):null;
+  const actionBtn=hasAdvancePack?null
+    :(won||draw)
+      ?(state.pendingPerkPick
+        ?el('button',{class:'btn primary btn-cta-main perk-glow',onclick:()=>{state.phase='perk-pick';render();}},['Aufstiegs Bonus wählen →'])
+        :el('button',{class:'btn primary btn-cta-main',onclick:_afterResult},['Karten ziehen →']))
+      :el('button',{class:'btn btn-cta-main',onclick:startNewGame},['Überspringen →']);
   const drawBuffNote=draw?el('div',{class:'draw-buff-note'},[el('span',{class:'draw-buff-icon'},['⚡']),el('span',{},['+4 Taktik Edge im nächsten Spiel'+(hasPerk('unentschieden_spezialist')?' +2 (Unentschieden-Spezialist)':'')])]):null;
   const loseInfo=(!won&&!draw)?el('div',{style:{textAlign:'center',fontSize:'12px',color:'var(--text-faint)'}},[`Run beendet: ${state.totalMatches} Spiele · ${LEAGUES[state.league].name}`]):null;
   // XP strip
@@ -6114,7 +6175,7 @@ function renderResultV2(main){
   if(drawBuffNote) kids.push(drawBuffNote);
   if(loseInfo) kids.push(loseInfo);
   if(xpStrip) kids.push(xpStrip);
-  kids.push(el('div',{class:'result-actions-v2'},[...(packBtn?[packBtn]:[]),actionBtn]));
+  kids.push(el('div',{class:'result-actions-v2'},[...(packBtn?[packBtn]:[]),...(advancePackBtn?[advancePackBtn]:[]),...(actionBtn?[actionBtn]:[])]));
   main.appendChild(el('div',{class:'phase result-phase-v2'},kids));
 }
 function buildTacticData(r){
@@ -6311,7 +6372,7 @@ function generateReplaceCards(){
     const byRarCol={};
     pool.forEach(p=>{(byRarCol[p.rarity]=byRarCol[p.rarity]||[]).push(p);});
     const picked=new Set();const result=[];
-    const targetCount=5+(_ebdCol.extraCards||0)+(hasPerk('talentspaeher')?1:0);
+    const targetCount=5+(_ebdCol.extraCards||0)+(hasPerk('talentspaeher')?1:0)+(state.permanentExtraCards||0);
     for(let i=0;i<targetCount;i++){
       const avail=Object.keys(byRarCol).filter(r=>byRarCol[r].some(p=>!picked.has(p.name)));
       if(!avail.length)break;
@@ -6354,7 +6415,7 @@ function generateReplaceCards(){
   ]);
   const shown=new Set();state.draftCards=[];
   const _ebd=state.eventBuff||{};
-  const targetCount=5+(_ebd.extraCards||0)+(hasPerk('talentspaeher')?1:0);
+  const targetCount=5+(_ebd.extraCards||0)+(hasPerk('talentspaeher')?1:0)+(state.permanentExtraCards||0);
   const useBoost=!!_ebd.draftRarityBoost||hasPerk('glueckspilz');
   const glückspilzOnly=hasPerk('glueckspilz')&&!_ebd.draftRarityBoost;
   let attempts=0;
@@ -6380,6 +6441,8 @@ function generateReplaceCards(){
     const gr=generatePlayerForPos(pickRand(MAIN_POSITIONS),rarities[Math.floor(Math.random()*rarities.length)]);
     if(gr)state.draftCards.unshift(gr);
   }
+  // Consume eventBuff draft fields — cleared here so they don't carry over to next draft
+  state.eventBuff=null;
   // Reset Tauschbörse swap uses
   state.perkState.tauschUsed=0;
 }
@@ -6438,6 +6501,8 @@ function renderReplaceDraft(main){
       '↷ Ohne neue Karte weiterspielen'
     ])
   ]);
+  const needsScroll=state.draftCards.length>5;
+  const cardsContainer=needsScroll?el('div',{class:'draft-cards-scroll'},[cardsDiv]):cardsDiv;
   const phase=el('div',{class:`phase draft-phase ${lgClass}`},[
     el('div',{class:'draft-center-block has-skip'},[
       el('div',{class:'draft-pick-banner'},[
@@ -6447,7 +6512,7 @@ function renderReplaceDraft(main){
           el('span',{},['Belohnung · '+LEAGUES[Math.min(state.league,LEAGUES.length-1)].name])
         ]),
       ]),
-      cardsDiv,
+      cardsContainer,
       skipBtn,
     ]),
     footer,
@@ -7065,11 +7130,12 @@ function renderLevelUp(main){
     el('div',{class:'lvlup-num'},[String(topLevel)]),
     el('div',{class:'lvlup-sub'},[multiLvl?`Level ${startLvl-1} → ${topLevel}`:`Level ${topLevel-1} → ${topLevel} erreicht`]),
   ]);
+  const lvlCardsContainer=allCards.length>5?el('div',{class:'draft-cards-scroll'},[cardsDiv]):cardsDiv;
   const phase=el('div',{class:'phase lvlup-phase'},[
     header,
     el('div',{class:'lvlup-pack-chips'},packChips),
     el('div',{class:'lvlup-cards-label'},['Belohnungen']),
-    cardsDiv,
+    lvlCardsContainer,
     continueBtn,
   ]);
   main.appendChild(phase);
