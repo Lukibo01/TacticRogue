@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Tactic Roguelike</title>
 <style>
 :root{
@@ -1593,6 +1593,35 @@ input,select,textarea{font-family:inherit}
   color:rgba(253,224,71,.9);max-width:420px;width:calc(100% - 32px);}
 .draw-buff-icon{font-size:16px;flex-shrink:0;}
 
+/* ── Rotate overlay — only on touch portrait ── */
+@media screen and (orientation:portrait) and (pointer:coarse){
+  .rotate-overlay{display:flex;}
+}
+.rotate-overlay{
+  display:none;
+  position:fixed;inset:0;z-index:9999;
+  background:#070B0F;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:20px;
+  -webkit-user-select:none;user-select:none;
+}
+.rotate-icon{
+  font-size:56px;
+  animation:rotatePulse 2s ease-in-out infinite;
+}
+@keyframes rotatePulse{
+  0%,100%{transform:rotate(0deg);}
+  40%{transform:rotate(90deg);}
+  60%{transform:rotate(90deg);}
+}
+.rotate-text{
+  font-size:15px;font-weight:800;color:rgba(255,255,255,.7);
+  letter-spacing:.5px;text-align:center;line-height:1.5;
+}
+.rotate-sub{
+  font-size:11px;color:rgba(255,255,255,.3);text-align:center;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    MOBILE LANDSCAPE LAYOUT
    Guard: touch device (pointer:coarse) + landscape + max-width 1024px
@@ -1739,6 +1768,45 @@ input,select,textarea{font-family:inherit}
   .match-field-wrap{width:100%;}
   .match-field{width:96%;}
 
+  /* ── Lineup screen ── */
+  /* Topbar: compress height, hide secondary stats */
+  .lineup-topbar{height:34px;padding:0 10px;}
+  .lineup-topbar-label{display:none;}
+  .lineup-stat-value{font-size:12px;}
+  .lineup-stat-value.accent{font-size:20px;letter-spacing:-.5px;}
+  .lineup-stat-label{font-size:7px;}
+  .lineup-topbar-stats{gap:10px;}
+  .lineup-topbar-right{gap:10px;}
+  /* Hide formation dropdown label on mobile */
+  .fmt-drop-btn{padding:5px 10px;min-width:110px;border-radius:7px;}
+  .fmt-drop-val{font-size:12px;}
+  /* CTA bar */
+  .lineup-cta-bar{height:44px;}
+  /* Pitch slot tokens: scale down to ~60% */
+  .lineup-phase .slot-token{width:54px;height:72px;border-radius:7px;}
+  .lineup-phase .stoken-rating{font-size:21px;}
+  .lineup-phase .stoken-flag{font-size:13px;}
+  .lineup-phase .stoken-strip{width:10px;}
+  .lineup-phase .stoken-strip-pos{font-size:7px;}
+  .lineup-phase .stoken-stage-chip{font-size:5.5px;padding:1px 3px;}
+  .lineup-phase .stoken-main{gap:1px;}
+  /* Slot name + pos chip below token */
+  .lineup-slot-name{font-size:9px;}
+  .lineup-slot-pos-chip{font-size:8px;padding:1px 4px;}
+  .lineup-slot{gap:1px;}
+  .lineup-slot-shadow{display:none;}
+  /* Bench panel: narrower */
+  .lineup-bench-panel{width:130px;padding:10px 6px 8px;gap:2px;}
+  .lineup-bench-panel .slot-token{width:54px;height:72px;border-radius:7px;}
+  .lineup-bench-panel .stoken-rating{font-size:21px;}
+  .lineup-bench-panel .stoken-flag{font-size:13px;}
+  .lineup-bench-panel .stoken-strip{width:10px;}
+  .lineup-bench-panel-name{font-size:9px;max-width:110px;}
+  .lineup-bench-panel-slot{padding:6px 0;gap:3px;}
+  /* Unavailable banner compact */
+  .unavail-banner{padding:7px 10px;}
+  .unavail-banner-text{font-size:10px;}
+
   /* ── Halftime modal ── */
   .ht-modal{padding:16px 14px;border-radius:12px;width:clamp(280px,92vw,420px);}
   .ht-badge{font-size:8px;margin-bottom:3px;}
@@ -1752,10 +1820,53 @@ input,select,textarea{font-family:inherit}
   .ht-opt-lbl{font-size:11px;margin-bottom:2px;}
   .ht-opt-desc{font-size:9px;}
 
+  /* ── Pack opening ── */
+  .pack-phase{padding:10px 16px;gap:0;}
+  /* Scale pack card down to fit landscape height */
+  .pack-v2{zoom:0.68;}
+  /* Opened cards: already handled via .draft-card-wrap zoom in Step 2 */
+
+  /* ── Perk picker ── */
+  /* Reduce perk card size: face zoom 1.65 → 0.95, wrap dimensions accordingly */
+  .perk-card-wrap{width:170px;height:260px;}
+  .perk-card-wrap .perk-card-face{zoom:0.95;}
+  .perk-cards-row{gap:14px;}
+  /* Perk screen banner compact */
+  .draft-pick-banner{padding:0 10px;}
+
+  /* ── Level-up screen ── */
+  .lvlup-phase{padding:14px 12px 14px;}
+  .lvlup-pre{font-size:8px;letter-spacing:2px;}
+  .lvlup-num{font-size:56px;letter-spacing:-3px;}
+  .lvlup-sub{font-size:9px;margin-top:4px;}
+  .lvlup-pack-chips{margin:6px 0 8px;gap:5px;}
+  .lvlup-pack-chip{font-size:8px;padding:3px 8px;}
+  .lvlup-cards-label{font-size:8px;margin-bottom:4px;}
+
+  /* ── Ranking screen ── */
+  .ranking-phase{padding:10px 12px;}
+  .ranking-title{font-size:14px;margin-bottom:2px;}
+  .ranking-sub{font-size:9px;margin-bottom:10px;}
+  .ranking-name-row{margin-bottom:10px;gap:6px;}
+  .ranking-name-input{font-size:11px;padding:6px 10px;border-radius:8px;}
+  .ranking-name-save{font-size:9px;padding:6px 10px;border-radius:8px;}
+  .ranking-row{padding:6px 10px;border-radius:8px;}
+  .rank-name{font-size:11px;}
+  .rank-lvl{font-size:11px;}
+  .rank-pos{font-size:11px;width:22px;}
+  .rank-xp{font-size:9px;}
+  .ranking-loading{padding:16px;font-size:11px;}
+
 }
 </style>
 </head>
 <body>
+<!-- Rotate overlay — shown on touch devices in portrait mode only -->
+<div class="rotate-overlay" id="rotateOverlay">
+  <div class="rotate-icon">📱</div>
+  <div class="rotate-text">Bitte drehe dein Gerät</div>
+  <div class="rotate-sub">Das Spiel ist im Querformat optimiert</div>
+</div>
 <div class="game">
   <header class="header">
     <!-- LOGO -->
