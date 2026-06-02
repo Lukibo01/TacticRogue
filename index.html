@@ -1500,6 +1500,21 @@ input,select,textarea{font-family:inherit}
 .perk-card-eff-lbl{color:rgba(255,255,255,.4);}
 .perk-card-eff-val{color:#fff;}
 .perk-card-eff-block{background:rgba(255,255,255,.06);outline:1.5px solid rgba(255,255,255,.12);}
+/* Perk card league coloring */
+.perk-card-face.perk-lg0 .perk-card-strip{background:#78716c;}
+.perk-card-face.perk-lg0{box-shadow:0 6px 32px rgba(0,0,0,.65),0 0 18px rgba(120,113,108,.3);}
+.perk-card-face.perk-lg1 .perk-card-strip{background:#16a34a;}
+.perk-card-face.perk-lg1{box-shadow:0 6px 32px rgba(0,0,0,.65),0 0 18px rgba(22,163,74,.35);}
+.perk-card-face.perk-lg2 .perk-card-strip{background:#0891b2;}
+.perk-card-face.perk-lg2{box-shadow:0 6px 32px rgba(0,0,0,.65),0 0 18px rgba(8,145,178,.35);}
+.perk-card-face.perk-lg3 .perk-card-strip{background:#dc2626;}
+.perk-card-face.perk-lg3{box-shadow:0 6px 32px rgba(0,0,0,.65),0 0 18px rgba(220,38,38,.35);}
+.perk-card-face.perk-lg4 .perk-card-strip{background:#ca8a04;}
+.perk-card-face.perk-lg4{box-shadow:0 6px 32px rgba(0,0,0,.65),0 0 18px rgba(202,138,4,.35);}
+.perk-card-face.perk-lg5 .perk-card-strip{background:#a855f7;}
+.perk-card-face.perk-lg5{box-shadow:0 6px 32px rgba(0,0,0,.65),0 0 18px rgba(168,85,247,.4);}
+.perk-card-face.perk-imp .perk-card-strip{background:#ef4444;}
+.perk-card-face.perk-imp{box-shadow:0 6px 32px rgba(0,0,0,.65),0 0 18px rgba(239,68,68,.4);}
 /* Wrap — bigger zoom for perk cards */
 .perk-card-wrap{
   display:flex;flex-direction:column;align-items:center;
@@ -6011,10 +6026,6 @@ function finishMatch(){
       if(hasPerk('aufsteiger_momentum'))_ps2.aufsteigerGames=2;
       _ps2.routinierLeagues=Math.min((_ps2.routinierLeagues||0)+1,4);
       state.league++;state.winsThisLeague=0;
-      // League advancement pack — colored by the NEW league
-      state.packCards=generatePackCards(state.league);
-      state.packLeague=state.league;
-      state.afterPack='perk-or-draft';
       const availPerks=PERKS.filter(p=>!state.perks.includes(p.id));
       if(availPerks.length>0){state.pendingPerkPick=true;}
       showToast('Aufstieg in '+LEAGUES[state.league].name+'!');
@@ -6134,16 +6145,13 @@ function renderResultV2(main){
   ]);
 
   // Pack only on run-ending loss (not draw).
-  const hasAdvancePack=won&&!draw&&state.packCards&&state.packCards.length>0;
   const packBtn=(!won&&!draw)?el('button',{class:'btn primary btn-cta-main',onclick:()=>{state.afterPack='new-game';state.phase='pack-opening';render();}},['Pack öffnen →']):null;
   const _afterResult=()=>{maybeShowRandomEvent(()=>{generateReplaceCards();state.phase='replace-draft';render();});};
-  const advancePackBtn=hasAdvancePack?el('button',{class:'btn primary btn-cta-main',onclick:()=>{state.phase='pack-opening';render();}},['Liga Pack öffnen →']):null;
-  const actionBtn=hasAdvancePack?null
-    :(won||draw)
-      ?(state.pendingPerkPick
-        ?el('button',{class:'btn primary btn-cta-main perk-glow',onclick:()=>{state.phase='perk-pick';render();}},['Aufstiegs Bonus wählen →'])
-        :el('button',{class:'btn primary btn-cta-main',onclick:_afterResult},['Karten ziehen →']))
-      :el('button',{class:'btn btn-cta-main',onclick:startNewGame},['Überspringen →']);
+  const actionBtn=(won||draw)
+    ?(state.pendingPerkPick
+      ?el('button',{class:'btn primary btn-cta-main perk-glow',onclick:()=>{state.phase='perk-pick';render();}},['Aufstiegs Bonus wählen →'])
+      :el('button',{class:'btn primary btn-cta-main',onclick:_afterResult},['Karten ziehen →']))
+    :el('button',{class:'btn btn-cta-main',onclick:startNewGame},['Überspringen →']);
   const drawBuffNote=draw?el('div',{class:'draw-buff-note'},[el('span',{class:'draw-buff-icon'},['⚡']),el('span',{},['+4 Taktik Edge im nächsten Spiel'+(hasPerk('unentschieden_spezialist')?' +2 (Unentschieden-Spezialist)':'')])]):null;
   const loseInfo=(!won&&!draw)?el('div',{style:{textAlign:'center',fontSize:'12px',color:'var(--text-faint)'}},[`Run beendet: ${state.totalMatches} Spiele · ${LEAGUES[state.league].name}`]):null;
   // XP strip
@@ -6175,7 +6183,7 @@ function renderResultV2(main){
   if(drawBuffNote) kids.push(drawBuffNote);
   if(loseInfo) kids.push(loseInfo);
   if(xpStrip) kids.push(xpStrip);
-  kids.push(el('div',{class:'result-actions-v2'},[...(packBtn?[packBtn]:[]),...(advancePackBtn?[advancePackBtn]:[]),...(actionBtn?[actionBtn]:[])]));
+  kids.push(el('div',{class:'result-actions-v2'},[...(packBtn?[packBtn]:[]),actionBtn]));
   main.appendChild(el('div',{class:'phase result-phase-v2'},kids));
 }
 function buildTacticData(r){
@@ -7175,7 +7183,7 @@ function renderPerkPick(main){
 
   function buildPerkCard(perk){
     const wrap=el('div',{class:'draft-card-wrap perk-card-wrap'});
-    const face=el('div',{class:`perk-card-face perk-theme-${perk.cat}`,onclick:()=>pickPerk(perk)},[
+    const face=el('div',{class:`perk-card-face perk-theme-${perk.cat} ${perkLgClass}`,onclick:()=>pickPerk(perk)},[
       el('div',{class:'perk-card-strip'}),
       el('div',{class:'perk-card-top'},[
         el('span',{class:'perk-cat-badge'},[CAT_LABEL[perk.cat]||perk.cat]),
@@ -7207,6 +7215,7 @@ function renderPerkPick(main){
 
   const leagueName=LEAGUES[state.league]?.name||('Liga '+state.league);
   const lgClass=state.impossibleMode?'imp':`lg${Math.min(state.league,5)}`;
+  const perkLgClass=state.impossibleMode?'perk-imp':`perk-lg${Math.min(state.league,5)}`;
 
   const currentPerksEl=state.perks.length>0?el('div',{class:'perk-current-perks'},[
     el('div',{class:'perk-current-label'},['Aktive Boni']),
