@@ -2127,7 +2127,7 @@ input,select,textarea{font-family:inherit}
   .intro-right svg{height:97%;transform:translate(-50%,-68%) rotateX(6deg) rotateY(-6deg) rotate(-4deg);}
 
   /* ── Result screen ── */
-  .result-phase-v2{padding:2px max(12px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));gap:2px;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
+  .result-phase-v2{position:absolute!important;inset:0;padding:2px max(12px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));gap:2px;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
   .res-action-btn-wrap{top:4px;right:max(12px,env(safe-area-inset-right));}
   .res-score-section{gap:0px;}
   .res-score-outcome{padding:3px 14px;}
@@ -2475,8 +2475,8 @@ input,select,textarea{font-family:inherit}
   /* replace-draft "Ohne Karte weiter" — respect right safe-area */
   .draft-phase>.pill-btn-weiter{right:max(20px,env(safe-area-inset-right))!important;}
   .pill-btn-weiter{padding:8px 18px;font-size:12px;font-weight:900;}
-  /* replace-pick card column: smaller card in landscape */
-  .replace-pick-phase .rp-new-card-col{padding:10px 8px;gap:6px;}
+  /* replace-pick card column: smaller card in landscape, anchored to top */
+  .replace-pick-phase .rp-new-card-col{padding:10px 8px 10px;gap:6px;justify-content:flex-start;}
   .replace-pick-phase .rp-new-card-col .card{zoom:0.58;}
 
 }
@@ -2722,7 +2722,7 @@ input,select,textarea{font-family:inherit}
   /* ══════════════════════════════════════════════════════════
      M-09 · RESULT-SCREEN — Portrait
      ══════════════════════════════════════════════════════════ */
-  .result-phase-v2{padding:6px 14px 12px;gap:8px;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
+  .result-phase-v2{position:absolute!important;inset:0;padding:6px 14px calc(70px + max(4px,env(safe-area-inset-bottom)));gap:8px;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
   /* Score: match live match size */
   .result-phase-v2 .match-score-num{font-size:clamp(48px,13svw,72px);}
   .res-scorers{width:60px;}
@@ -4444,21 +4444,34 @@ function generateOpponent(){
 }
 function generateSensibleTactics(){
   const lg=state.league;
+  // 8 archetypal styles (index 0-7)
   const styles=[
-    {aufbau:0,tempo:0,breite:1,kreativ:3,gegenpressing:4,konter:0,pressing:3,deflinie:3,deckung:1,defform:2,mentality:3},   // Tiki-Taka
-    {aufbau:2,tempo:4,breite:2,kreativ:2,gegenpressing:4,konter:3,pressing:4,deflinie:3,deckung:2,defform:2,mentality:3},   // Gegenpressing
-    {aufbau:3,tempo:4,breite:3,kreativ:1,gegenpressing:1,konter:4,pressing:1,deflinie:1,deckung:3,defform:3,mentality:1},   // Konter
-    {aufbau:4,tempo:3,breite:1,kreativ:0,gegenpressing:0,konter:4,pressing:0,deflinie:0,deckung:4,defform:4,mentality:0},   // Catenaccio
-    {aufbau:3,tempo:3,breite:4,kreativ:2,gegenpressing:2,konter:2,pressing:2,deflinie:2,deckung:2,defform:1,mentality:3},   // Flügelspiel
-    {aufbau:0,tempo:1,breite:2,kreativ:3,gegenpressing:4,konter:1,pressing:3,deflinie:3,deckung:1,defform:2,mentality:3},   // Positionsspiel
-    {aufbau:4,tempo:4,breite:3,kreativ:1,gegenpressing:2,konter:3,pressing:2,deflinie:2,deckung:2,defform:3,mentality:2},   // Direkter Stil
-    {aufbau:1,tempo:3,breite:2,kreativ:2,gegenpressing:3,konter:2,pressing:4,deflinie:4,deckung:2,defform:2,mentality:3},   // Pressingmaschine
+    {aufbau:0,tempo:0,breite:1,kreativ:3,gegenpressing:4,konter:0,pressing:3,deflinie:3,deckung:1,defform:2,mentality:3},  // 0 Tiki-Taka
+    {aufbau:2,tempo:4,breite:2,kreativ:2,gegenpressing:4,konter:3,pressing:4,deflinie:3,deckung:2,defform:2,mentality:3},  // 1 Gegenpressing
+    {aufbau:3,tempo:4,breite:3,kreativ:1,gegenpressing:1,konter:4,pressing:1,deflinie:1,deckung:3,defform:3,mentality:1},  // 2 Konter
+    {aufbau:4,tempo:3,breite:1,kreativ:0,gegenpressing:0,konter:4,pressing:0,deflinie:0,deckung:4,defform:4,mentality:0},  // 3 Catenaccio
+    {aufbau:3,tempo:3,breite:4,kreativ:2,gegenpressing:2,konter:2,pressing:2,deflinie:2,deckung:2,defform:1,mentality:3},  // 4 Flügelspiel
+    {aufbau:0,tempo:1,breite:2,kreativ:3,gegenpressing:4,konter:1,pressing:3,deflinie:3,deckung:1,defform:2,mentality:3},  // 5 Positionsspiel
+    {aufbau:4,tempo:4,breite:3,kreativ:1,gegenpressing:2,konter:3,pressing:2,deflinie:2,deckung:2,defform:3,mentality:2},  // 6 Direkter Stil
+    {aufbau:1,tempo:3,breite:2,kreativ:2,gegenpressing:3,konter:2,pressing:4,deflinie:4,deckung:2,defform:2,mentality:3},  // 7 Pressingmaschine
   ];
-  // Lower leagues use simpler, more direct styles
-  const pools=[[2,3,6],[2,3,4,6],[0,1,2,3,4,5,6,7],[0,1,4,5,7],[0,1,5,7]];
-  const pool=pools[Math.min(lg,pools.length-1)];
-  const chosen={...styles[pool[Math.floor(Math.random()*pool.length)]]};
-  for(const k in chosen){if(k==='mentality')continue;chosen[k]=clamp(chosen[k]+rand(-1,1),0,4);}
+  // Weights per league [Tiki,Gegen,Konter,Cat,Flügel,Pos,Direkt,Press]
+  // Lower leagues favor simple styles but all styles have a chance for variety
+  const W=[
+    [1,1,6,5,4,1,6,2],  // Kreisliga: konter/catenaccio/direkt dominant, aber variiert
+    [2,2,5,4,5,2,5,3],  // Regionalliga
+    [3,4,4,3,5,3,4,5],  // Bundesliga
+    [4,5,3,2,4,5,3,6],  // Champions League
+    [5,6,2,1,4,6,2,6],  // Superliga
+  ];
+  const w=W[Math.min(lg,W.length-1)];
+  const total=w.reduce((a,b)=>a+b,0);
+  let r=Math.random()*total,idx=0;
+  for(let i=0;i<w.length;i++){r-=w[i];if(r<=0){idx=i;break;}}
+  // More noise in lower leagues (chaotic/unpredictable), slightly less at top
+  const noise=lg<=1?2:2;
+  const chosen={...styles[idx]};
+  for(const k in chosen){if(k==='mentality')continue;chosen[k]=clamp(chosen[k]+rand(-noise,noise),0,4);}
   return chosen;
 }
 
