@@ -6586,7 +6586,7 @@ function buildTacticRightPanel(TA,F,oppAvg){
     {name:'Tiefer Block',  match:()=>g('pressing')<=1&&g('deflinie')<=1},
   ];
   const stilName=(STIL_NAMES.find(s=>s.match())||{name:'Ausgeglichene Taktik'}).name;
-  rightInner.appendChild(el('div',{class:'tac-opp-sec-title',style:{marginTop:'36px',fontSize:'10px'}},[`SPIELSTIL`]));
+  rightInner.appendChild(el('div',{class:'tac-opp-sec-title',style:{marginTop:'6px',fontSize:'10px'}},[`SPIELSTIL`]));
   rightInner.appendChild(el('div',{style:{fontWeight:'700',fontSize:'14px',color:'#f87171',marginBottom:'6px',letterSpacing:'.3px'}},[stilName]));
   // Style description + counter hint card
   const stilInfo=STYLE_DESCRIPTIONS[stilName]||STYLE_DESCRIPTIONS['Ausgeglichene Taktik'];
