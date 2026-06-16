@@ -109,9 +109,9 @@ input,select,textarea{font-family:inherit}
 .intro-wrap{padding:0;flex-direction:row;background:transparent;overflow:hidden}
 .phase{background:transparent}
 .intro-left{
-  display:flex;flex-direction:column;justify-content:center;
+  display:flex;flex-direction:column;justify-content:flex-start;
   z-index:2;flex-shrink:0;
-  padding:0 0 0 5.56%; /* 80/1440 */
+  padding:12vh 0 0 5.56%; /* 80/1440; padding-top shifts content ~20% lower */
   max-width:42%;min-width:260px;
 }
 
@@ -340,7 +340,7 @@ input,select,textarea{font-family:inherit}
 /* ── Slot-Elemente (Pitch) ── */
 .lineup-slot{position:absolute;transform:translate(-50%,-50%) translateZ(0);display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;user-select:none;touch-action:none;z-index:5;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .lineup-slot-card-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px}
-.lineup-slot-shadow{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:106px;height:18px;background:radial-gradient(ellipse at center,rgba(0,0,0,.75) 0%,transparent 72%);z-index:-1;pointer-events:none}
+.lineup-slot-shadow{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:106px;height:18px;background:radial-gradient(ellipse at center,rgba(0,0,0,.75) 0%,transparent 72%);z-index:-1;pointer-events:none}
 .lineup-slot-name{font-size:14px;font-weight:800;color:#FFF;text-shadow:0 1px 8px rgba(0,0,0,1);white-space:nowrap;pointer-events:none;line-height:1}
 .lineup-slot-pos-chip{font-size:8px;font-weight:800;letter-spacing:.6px;pointer-events:none;line-height:1;padding:3px 9px;border-radius:999px;text-transform:uppercase;background-size:100% 100%;background-repeat:no-repeat;border:none}
 .lineup-slot-pos-chip.pos-main{background-image:url('assets/Playercards/position-icon-main.svg');color:#5EC26A}
@@ -1116,6 +1116,7 @@ input,select,textarea{font-family:inherit}
 .pill-btn-weiter.disabled{opacity:.3;cursor:not-allowed;pointer-events:none}
 .pill-btn-weiter.perk-glow{box-shadow:0 0 18px rgba(94,194,106,.35),0 0 40px rgba(94,194,106,.12);}
 .tac-weiter-btn{position:absolute;top:16px;right:18px;z-index:20}
+.tac-sub-hint{position:absolute;top:24px;left:18px;right:160px;color:rgba(255,255,255,.32);font-size:10px;font-weight:600;letter-spacing:.2px;line-height:1.3;z-index:20;pointer-events:none}
 .tac-main-layout{display:flex;gap:16px;flex:1;overflow:hidden;align-items:stretch;min-height:0}
 .tac-panel{position:relative;border-radius:14px;overflow:hidden;flex-shrink:0;display:flex;flex-direction:column;align-self:stretch}
 .tac-panel.tac-left{flex:1;min-width:0;background:#151620;border:1.5px solid rgba(94,194,106,.5);}
@@ -1125,7 +1126,7 @@ input,select,textarea{font-family:inherit}
 .tac-panel-inner{position:relative;z-index:1;padding:20px 22px 18px;display:flex;flex-direction:column;gap:10px;height:100%;overflow-y:auto;box-sizing:border-box;scrollbar-width:none}
 .tac-panel.tac-right .tac-panel-inner{padding-top:20px}
 /* Desktop panel title labels — hidden on mobile via pointer:coarse override below */
-.tac-panel-title{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);padding:5px 14px 4px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;margin:-20px -22px 0;width:calc(100% + 44px);box-sizing:border-box;}
+.tac-panel-title{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);padding:5px 14px 4px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;margin:-12px -22px 10px;width:calc(100% + 44px);box-sizing:border-box;}
 .tac-panel-inner::-webkit-scrollbar{display:none}
 .tac-ph{display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
 .tac-ph-title{font-size:16px;font-weight:800;color:#fff;letter-spacing:-.2px}
@@ -1198,7 +1199,7 @@ input,select,textarea{font-family:inherit}
 .tac-sep-line{flex-shrink:0;height:1px;border:none;margin:4px 0 8px;background:linear-gradient(to right,rgba(94,194,106,0) 0%,rgba(94,194,106,.55) 18%,rgba(94,194,106,.55) 82%,rgba(94,194,106,0) 100%)}
 .tac-panel.tac-right .tac-sep-line{background:linear-gradient(to right,rgba(124,30,28,0) 0%,rgba(124,30,28,.8) 18%,rgba(124,30,28,.8) 82%,rgba(124,30,28,0) 100%)}
 .tac-saved-strip{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;flex-shrink:0}
-.tac-load-dropdown{position:absolute;top:calc(100% + 4px);left:0;z-index:200;background:#1a2230;border:1px solid rgba(255,255,255,.15);border-radius:9px;min-width:200px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.6)}
+.tac-load-dropdown{background:#1a2230;border:1px solid rgba(255,255,255,.15);border-radius:9px;min-width:200px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.6)}
 .tac-load-dropdown-item{display:flex;align-items:center;padding:9px 13px;font-size:12px;font-weight:600;color:rgba(255,255,255,.85);cursor:pointer;border-bottom:1px solid rgba(255,255,255,.07);transition:background .12s;gap:8px}
 .tac-load-dropdown-item:last-child{border-bottom:none}
 .tac-load-dropdown-item:hover{background:rgba(255,255,255,.09)}
@@ -1354,14 +1355,15 @@ input,select,textarea{font-family:inherit}
 .match-ctrl-wrap{position:absolute;top:16px;right:18px;z-index:20;display:flex;align-items:center;gap:8px}
 .speed-btn{font-size:12px;font-weight:800;padding:7px 16px;border-radius:20px;letter-spacing:.5px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:rgba(255,255,255,.75);cursor:pointer;transition:all .15s}
 .speed-btn:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.35)}
+/* skip-btn = pill-btn-weiter style — consistent with all other Weiter buttons */
+.skip-btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 32px;border-radius:999px;border:1.5px solid #4AB055;background:#151821;color:#4AB055;font-size:15px;font-weight:900;letter-spacing:.3px;cursor:pointer;white-space:nowrap;user-select:none;flex-shrink:0;font-family:inherit;transition:all .14s;touch-action:manipulation}
+.skip-btn:hover{background:#1f2d22}
 .speed-btn.speed-active{background:#5EC26A;color:#071a09;border-color:transparent;box-shadow:0 0 10px rgba(94,194,106,.4)}
-.skip-btn{font-size:12px;font-weight:700;padding:7px 18px;border-radius:20px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:rgba(255,255,255,.75);cursor:pointer;transition:all .15s}
-.skip-btn:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.35)}
 /* Score row — floating, no background */
 .match-score-row{display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .match-score-block{text-align:center;min-width:160px}
 .match-score-label{font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:2px;font-family:'Inter',sans-serif}
-.match-score-num{font-size:108px;font-weight:900;color:#fff;line-height:1;font-variant-numeric:tabular-nums}
+.match-score-num{font-size:108px;font-weight:900;color:#fff;line-height:1;font-variant-numeric:tabular-nums;font-stretch:condensed;-webkit-text-stroke:1.5px currentColor;paint-order:stroke fill;}
 .match-score-num.winning{color:#5ec269}
 .match-score-num.losing{color:#da4140}
 .match-score-sep{display:flex;flex-direction:column;align-items:center;padding:0 22px}
@@ -2287,7 +2289,8 @@ input,select,textarea{font-family:inherit}
   .match-score-block{min-width:70px;}
   /* Controls: safe-area aware */
   .match-ctrl-wrap{top:2px;right:max(12px,env(safe-area-inset-right));gap:5px;}
-  .speed-btn,.skip-btn{font-size:9px;padding:4px 8px;}
+  .speed-btn{font-size:9px;padding:4px 8px;}
+  .skip-btn{padding:8px 18px;font-size:12px;font-weight:900;}
   /* Columns: minimal gap to score row */
   .match-columns{margin-top:1px;}
   /* Panels: fixed height (62%), pinned to top — no bottom overflow */
@@ -2706,7 +2709,8 @@ input,select,textarea{font-family:inherit}
   .match-score-block{min-width:80px;}
   /* Controls neben Score */
   .match-ctrl-wrap{top:12px;right:12px;gap:6px;}
-  .speed-btn,.skip-btn{font-size:11px;padding:4px 9px;min-height:32px;}
+  .speed-btn{font-size:11px;padding:4px 9px;min-height:32px;}
+  .skip-btn{padding:8px 18px;font-size:12px;font-weight:900;}
   /* Spalten: Feld nimmt volle Breite, Ticker/Stats versteckt */
   .match-columns{flex-direction:column;margin-top:0;flex:1;min-height:0;}
   .match-ticker,.match-stats-side{display:none;}
@@ -2722,7 +2726,7 @@ input,select,textarea{font-family:inherit}
   /* ══════════════════════════════════════════════════════════
      M-09 · RESULT-SCREEN — Portrait
      ══════════════════════════════════════════════════════════ */
-  .result-phase-v2{position:absolute!important;inset:0;padding:6px 14px calc(70px + max(4px,env(safe-area-inset-bottom)));gap:8px;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
+  .result-phase-v2{position:absolute!important;inset:0;padding:6px 14px 0;padding-bottom:calc(90px + max(4px,env(safe-area-inset-bottom)))!important;gap:8px;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
   /* Score: match live match size */
   .result-phase-v2 .match-score-num{font-size:clamp(48px,13svw,72px);}
   .res-scorers{width:60px;}
@@ -3008,7 +3012,38 @@ input,select,textarea{font-family:inherit}
   .trophy-card:not(.locked):hover{transform:none;box-shadow:0 4px 12px rgba(0,0,0,.3);}
   .ht-opt:hover{transform:none;}
 }
+/* ── AUTH MODAL ─────────────────────────────────────────────── */
+.auth-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.auth-box{background:#151b23;border:1px solid #2e3542;border-radius:16px;padding:28px 24px 22px;width:min(360px,92vw);position:relative;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+.auth-close{position:absolute;top:12px;right:14px;background:none;border:none;color:#8b97a6;font-size:18px;cursor:pointer;line-height:1;padding:4px 6px;border-radius:6px}
+.auth-close:hover{color:#f0f3f7;background:#1d232c}
+.auth-logo{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.auth-logo-txt{font-size:15px;font-weight:800;color:#f0f3f7;letter-spacing:.5px}
+.auth-logo-sub{font-size:10px;font-weight:600;color:#5ec26a;letter-spacing:.8px;text-transform:uppercase}
+.auth-tabs{display:flex;gap:2px;background:#1d232c;border-radius:9px;padding:3px;margin-bottom:20px}
+.auth-tab{flex:1;background:none;border:none;color:#8b97a6;font-size:12px;font-weight:700;padding:7px;border-radius:7px;cursor:pointer;transition:all .15s;font-family:inherit}
+.auth-tab.active{background:#2e3542;color:#f0f3f7}
+.auth-input{width:100%;background:#1d232c;border:1px solid #2e3542;border-radius:9px;padding:11px 13px;color:#f0f3f7;font-size:13px;font-family:inherit;outline:none;box-sizing:border-box;transition:border-color .15s}
+.auth-input:focus{border-color:rgba(94,194,106,.5)}
+.auth-input::placeholder{color:#4a5568}
+.auth-submit{width:100%;background:linear-gradient(135deg,#4aad55,#5ec269);border:none;border-radius:9px;padding:12px;color:#fff;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:.3px;transition:opacity .15s;margin-top:2px}
+.auth-submit:hover{opacity:.88}
+.auth-submit:disabled{opacity:.45;cursor:not-allowed}
+.auth-error{color:#f87171;font-size:11px;min-height:16px;text-align:center;margin-top:4px}
+.auth-hint{color:#4a5568;font-size:10px;text-align:center;margin-top:14px;line-height:1.5}
+.auth-divider{height:1px;background:#2e3542;margin:6px 0}
+.auth-user-info{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#1d232c;border-radius:9px;margin-bottom:12px}
+.auth-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#4aad55,#5ec269);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0}
+.auth-uname{font-size:12px;font-weight:700;color:#f0f3f7;flex:1}
+.auth-uemail{font-size:10px;color:#6b7a8d}
+.auth-sync-badge{font-size:9px;font-weight:700;color:#5ec26a;background:rgba(94,194,106,.1);border:1px solid rgba(94,194,106,.2);border-radius:5px;padding:2px 6px}
+.btn-auth{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;border:1px solid rgba(94,194,106,.25);background:rgba(94,194,106,.07);color:#5ec26a;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .14s;white-space:nowrap}
+.btn-auth.intro{padding:10px 18px;font-size:13px;border-radius:10px;gap:8px;border-width:1.5px}
+.btn-auth:hover{border-color:rgba(94,194,106,.5);background:rgba(94,194,106,.13)}
+.btn-auth.logged-in{color:#f0f3f7;border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.05)}
+.btn-auth.logged-in:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.09)}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 </head>
 <body>
 <!-- Rotate overlay — shown on touch devices in portrait mode only -->
@@ -3118,6 +3153,52 @@ input,select,textarea{font-family:inherit}
   </header>
   <main class="main" id="main"></main>
 </div>
+<!-- AUTH MODAL -->
+<div class="auth-backdrop" id="authBackdrop" style="display:none" onclick="if(event.target===this)closeAuthModal()">
+  <div class="auth-box">
+    <button class="auth-close" onclick="closeAuthModal()">✕</button>
+    <div class="auth-logo">
+      <svg width="26" height="26" viewBox="0 0 34 34" fill="none"><rect x="4" y="4" width="26" height="26" rx="1.5" stroke="#5EC26A" stroke-width="1.3"/><line x1="4" y1="17" x2="30" y2="17" stroke="#5EC26A" stroke-width="1.1"/><circle cx="17" cy="17" r="4.2" stroke="#5EC26A" stroke-width="1.1"/><circle cx="17" cy="17" r="1.6" fill="#5EC26A"/></svg>
+      <div><div class="auth-logo-txt">Tactic Roguelike</div><div class="auth-logo-sub">Account</div></div>
+    </div>
+    <!-- Logged-in view -->
+    <div id="authLoggedIn" style="display:none">
+      <div class="auth-user-info">
+        <div class="auth-avatar" id="authAvatarLetter">?</div>
+        <div style="flex:1;min-width:0">
+          <div class="auth-uname" id="authDisplayName">—</div>
+          <div class="auth-uemail" id="authDisplayEmail">—</div>
+        </div>
+        <div class="auth-sync-badge" id="authSyncBadge">✓ Synced</div>
+      </div>
+      <button class="auth-submit" style="background:#1d232c;border:1px solid #2e3542;color:#f87171;margin-top:4px" onclick="doLogout()">Abmelden</button>
+    </div>
+    <!-- Login / Register -->
+    <div id="authLoggedOut">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="authTabLogin" onclick="switchAuthTab('login')">Anmelden</button>
+        <button class="auth-tab" id="authTabRegister" onclick="switchAuthTab('register')">Registrieren</button>
+      </div>
+      <!-- Login Form -->
+      <form id="authFormLogin" style="display:flex;flex-direction:column;gap:10px" onsubmit="event.preventDefault();doLogin()">
+        <input class="auth-input" id="loginEmail" type="email" placeholder="E-Mail" autocomplete="email">
+        <input class="auth-input" id="loginPass" type="password" placeholder="Passwort" autocomplete="current-password">
+        <button class="auth-submit" id="loginSubmitBtn" type="submit">Anmelden</button>
+      </form>
+      <!-- Register Form -->
+      <form id="authFormRegister" style="display:none;flex-direction:column;gap:10px" onsubmit="event.preventDefault();doRegister()">
+        <input class="auth-input" id="regUsername" type="text" placeholder="Benutzername (3–20 Zeichen)" maxlength="20" autocomplete="username">
+        <input class="auth-input" id="regEmail" type="email" placeholder="E-Mail" autocomplete="email">
+        <input class="auth-input" id="regPass" type="password" placeholder="Passwort (min. 6 Zeichen)" autocomplete="new-password">
+        <input class="auth-input" id="regPass2" type="password" placeholder="Passwort bestätigen" autocomplete="new-password">
+        <button class="auth-submit" id="regSubmitBtn" type="submit">Account erstellen</button>
+      </form>
+      <div class="auth-error" id="authError"></div>
+      <div class="auth-divider" style="margin-top:14px"></div>
+      <div class="auth-hint">Spielen ohne Account möglich — lokaler Spielstand bleibt erhalten.<br>Mit Account: Spielstand auf allen Geräten synchronisiert.</div>
+    </div>
+  </div>
+</div>
 <div class="role-modal" id="roleModal"></div>
 <div class="toast" id="toast"></div>
 
@@ -3153,6 +3234,201 @@ input,select,textarea{font-family:inherit}
 <script>
 "use strict";
 window.__GAME__ = {}; // bootstrap namespace; logic loaded below
+</script>
+<script id="supabase-auth">
+"use strict";
+// ── SUPABASE CONFIG ──────────────────────────────────────────────────────────
+const SUPA_URL = 'https://uxrtcbgmtvejhccnzaft.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV4cnRjYmdtdHZlamhjY256YWZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1OTQ0MjMsImV4cCI6MjA5NzE3MDQyM30.5njUGPEc6zebk59ViBETRBGM7lTB65ONASyG_4NQf0M';
+const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+let supaUser = null;
+let _syncTimer = null;
+
+// ── CLOUD SYNC ───────────────────────────────────────────────────────────────
+function scheduleSync() {
+  if (!supaUser) return;
+  if (_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(syncToCloud, 2000);
+}
+
+async function syncToCloud() {
+  if (!supaUser) return;
+  _syncTimer = null;
+  const s = window._gameState ? window._gameState() : null;
+  if (!s) return;
+  const runHist = (() => { try { return JSON.parse(localStorage.getItem('tactic_run_history') || '[]'); } catch(e) { return []; } })();
+  const { error } = await supa.from('game_saves').upsert({
+    user_id: supaUser.id,
+    username: s.playerName || localStorage.getItem('tactic_player_name') || '',
+    trophies: s.trophies || [],
+    league_trophies: s.leagueTrophies || {},
+    saved_tactics: s.savedTactics || [],
+    collection: s.collection || [],
+    player_level: s.playerLevel || 1,
+    player_xp: s.playerXP || 0,
+    pending_rewards: s.pendingLevelRewards || [],
+    run_history: runHist,
+    updated_at: new Date().toISOString()
+  }, { onConflict: 'user_id' });
+  if (error) { console.warn('[Tactic] Sync error:', error.message); updateSyncBadge(false); }
+  else { updateSyncBadge(true); }
+}
+
+async function loadFromCloud() {
+  if (!supaUser) return;
+  const { data, error } = await supa.from('game_saves').select('*').eq('user_id', supaUser.id).single();
+  if (error || !data) {
+    // First login — push local data to cloud
+    scheduleSync();
+    return;
+  }
+  // Apply cloud data to localStorage (game reads from localStorage on next render)
+  if (Array.isArray(data.trophies))         localStorage.setItem('tactic-trophies', JSON.stringify(data.trophies));
+  if (data.league_trophies)                  localStorage.setItem('tactic-league-trophies', JSON.stringify(data.league_trophies));
+  if (Array.isArray(data.saved_tactics))     localStorage.setItem('tactic-saved-tactics', JSON.stringify(data.saved_tactics));
+  if (Array.isArray(data.collection))        localStorage.setItem('tactic_collection', JSON.stringify(data.collection));
+  if (data.player_level != null)             localStorage.setItem('tactic_player_level', JSON.stringify({level: data.player_level, xp: data.player_xp || 0}));
+  if (Array.isArray(data.pending_rewards))   localStorage.setItem('tactic_pending_rewards', JSON.stringify(data.pending_rewards));
+  if (Array.isArray(data.run_history))       localStorage.setItem('tactic_run_history', JSON.stringify(data.run_history));
+  if (data.username)                         localStorage.setItem('tactic_player_name', data.username);
+  // Hot-reload state if game already running
+  if (window._reloadCloudData) window._reloadCloudData(data);
+  updateAuthBtn();
+  updateSyncBadge(true);
+}
+
+// ── AUTH UI ──────────────────────────────────────────────────────────────────
+function openAuthModal(tab) {
+  document.getElementById('authBackdrop').style.display = 'flex';
+  updateAuthModal();
+  switchAuthTab(tab || (supaUser ? 'user' : 'login'));
+}
+function closeAuthModal() {
+  document.getElementById('authBackdrop').style.display = 'none';
+  document.getElementById('authError').textContent = '';
+}
+function switchAuthTab(tab) {
+  const isUser = !!supaUser;
+  document.getElementById('authLoggedIn').style.display = isUser ? 'block' : 'none';
+  document.getElementById('authLoggedOut').style.display = isUser ? 'none' : 'block';
+  if (!isUser) {
+    const isReg = tab === 'register';
+    document.getElementById('authTabLogin').classList.toggle('active', !isReg);
+    document.getElementById('authTabRegister').classList.toggle('active', isReg);
+    document.getElementById('authFormLogin').style.display = isReg ? 'none' : 'flex';
+    document.getElementById('authFormRegister').style.display = isReg ? 'flex' : 'none';
+  }
+  document.getElementById('authError').textContent = '';
+}
+
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  if (!email || !pass) return setAuthError('Bitte alle Felder ausfüllen.');
+  const btn = document.getElementById('loginSubmitBtn');
+  btn.disabled = true; btn.textContent = 'Bitte warten…';
+  const { error } = await supa.auth.signInWithPassword({ email, password: pass });
+  btn.disabled = false; btn.textContent = 'Anmelden';
+  if (error) return setAuthError(error.message.includes('Invalid') ? 'E-Mail oder Passwort falsch.' : error.message);
+  closeAuthModal();
+}
+
+async function doRegister() {
+  const username = document.getElementById('regUsername').value.trim();
+  const email    = document.getElementById('regEmail').value.trim();
+  const pass     = document.getElementById('regPass').value;
+  const pass2    = document.getElementById('regPass2').value;
+  if (!username || !email || !pass) return setAuthError('Bitte alle Felder ausfüllen.');
+  if (username.length < 3)  return setAuthError('Benutzername mind. 3 Zeichen.');
+  if (pass.length < 6)      return setAuthError('Passwort mind. 6 Zeichen.');
+  if (pass !== pass2)       return setAuthError('Passwörter stimmen nicht überein.');
+  const btn = document.getElementById('regSubmitBtn');
+  btn.disabled = true; btn.textContent = 'Bitte warten…';
+  const { error } = await supa.auth.signUp({ email, password: pass, options: { data: { username } } });
+  btn.disabled = false; btn.textContent = 'Account erstellen';
+  if (error) return setAuthError(error.message.includes('already') ? 'E-Mail bereits registriert.' : error.message);
+  // Set username locally
+  localStorage.setItem('tactic_player_name', username);
+  if (window._setPlayerName) window._setPlayerName(username);
+  closeAuthModal();
+  if (window._showToast) window._showToast('Account erstellt & eingeloggt! 🎉');
+}
+
+async function doLogout() {
+  try { await supa.auth.signOut(); } catch(e) { console.warn('[Tactic] signOut error:', e); }
+  supaUser = null;
+  window._pendingActiveRun = null;
+  closeAuthModal();
+  updateAuthBtn();
+  if (window._showToast) window._showToast('Abgemeldet.');
+  if (typeof render === 'function') render();
+}
+window.doLogout = doLogout;
+window.openAuthModal = openAuthModal;
+window.closeAuthModal = closeAuthModal;
+window.switchAuthTab = switchAuthTab;
+window.doLogin = doLogin;
+window.doRegister = doRegister;
+
+function setAuthError(msg) {
+  document.getElementById('authError').textContent = msg;
+}
+
+function updateAuthModal() {
+  if (!supaUser) return;
+  const name = localStorage.getItem('tactic_player_name') || supaUser.email.split('@')[0];
+  const letter = document.getElementById('authAvatarLetter');
+  const uname  = document.getElementById('authDisplayName');
+  const uemail = document.getElementById('authDisplayEmail');
+  if (letter) letter.textContent = name[0].toUpperCase();
+  if (uname)  uname.textContent  = name || '—';
+  if (uemail) uemail.textContent = supaUser.email || '—';
+}
+
+function updateAuthBtn() {
+  updateAuthModal();
+  const btn = document.getElementById('btnAuth');
+  if (!btn) { if(typeof render==='function' && window._gameState && window._gameState().phase==='intro') render(); return; }
+  if (supaUser) {
+    const name = localStorage.getItem('tactic_player_name') || supaUser.email.split('@')[0];
+    btn.className = 'btn-auth intro logged-in';
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M3 18c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>${name.slice(0,12)}</span>`;
+    btn.title = supaUser.email + ' — klicken für Account';
+    btn.onclick = () => openAuthModal('user');
+  } else {
+    btn.className = 'btn-auth intro';
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M3 18c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Login</span>`;
+    btn.title = 'Anmelden / Registrieren';
+    btn.onclick = () => openAuthModal('login');
+  }
+}
+
+function updateSyncBadge(ok) {
+  const b = document.getElementById('authSyncBadge');
+  if (!b) return;
+  b.textContent = ok ? '✓ Synced' : '⚠ Fehler';
+  b.style.color = ok ? '#5ec26a' : '#f59e0b';
+}
+
+// ── AUTH STATE LISTENER ──────────────────────────────────────────────────────
+supa.auth.onAuthStateChange(async (event, session) => {
+  supaUser = session?.user || null;
+  updateAuthBtn();
+  if (event === 'SIGNED_IN') {
+    if (window._showToast) window._showToast('Eingeloggt ✓');
+    await loadFromCloud();
+  }
+});
+
+// Restore existing session on page load
+(async () => {
+  const { data: { session } } = await supa.auth.getSession();
+  if (session) {
+    supaUser = session.user;
+    updateAuthBtn();
+    await loadFromCloud();
+  }
+})();
 </script>
 <script id="game-logic">
 /* ============================================================
@@ -4105,12 +4381,12 @@ const KEYS={
 // Legacy single-use aliases (keep for backward compat references in load/save fns)
 const COL_KEY=KEYS.collection;
 function loadTrophies(){try{return JSON.parse(localStorage.getItem(KEYS.trophies)||'[]')}catch(e){return[]}}
-function saveTrophies(){try{localStorage.setItem(KEYS.trophies,JSON.stringify(state.trophies))}catch(e){}}
+function saveTrophies(){try{localStorage.setItem(KEYS.trophies,JSON.stringify(state.trophies))}catch(e){} scheduleSync&&scheduleSync();}
 function loadLeagueTrophies(){try{return JSON.parse(localStorage.getItem(KEYS.leagueTrophies)||'{}')}catch(e){return{}}}
-function saveLeagueTrophies(){try{localStorage.setItem(KEYS.leagueTrophies,JSON.stringify(state.leagueTrophies))}catch(e){}}
+function saveLeagueTrophies(){try{localStorage.setItem(KEYS.leagueTrophies,JSON.stringify(state.leagueTrophies))}catch(e){} scheduleSync&&scheduleSync();}
 function addLeagueTrophy(leagueIdx){const key=LEAGUES[leagueIdx].key;state.leagueTrophies[key]=(state.leagueTrophies[key]||0)+1;saveLeagueTrophies()}
 function loadSavedTactics(){try{return JSON.parse(localStorage.getItem(KEYS.savedTactics)||'[]')}catch(e){return[]}}
-function writeSavedTactics(){try{localStorage.setItem(KEYS.savedTactics,JSON.stringify(state.savedTactics))}catch(e){}}
+function writeSavedTactics(){try{localStorage.setItem(KEYS.savedTactics,JSON.stringify(state.savedTactics))}catch(e){} scheduleSync&&scheduleSync();}
 function loadRunHistory(){try{return JSON.parse(localStorage.getItem(KEYS.runHistory)||'[]')}catch(e){return[]}}
 function saveRunToHistory(won){
   try{
@@ -4126,6 +4402,7 @@ function saveRunToHistory(won){
     hist.unshift(entry);
     if(hist.length>50)hist.length=50; // keep last 50 runs
     localStorage.setItem(KEYS.runHistory,JSON.stringify(hist));
+    scheduleSync&&scheduleSync();
   }catch(e){}
 }
 // ── Collection persistence ───────────────────────────────────────────────────
@@ -4153,7 +4430,7 @@ setState({collection:migrateCollection(loadCollection())});
 
 setState({pendingLevelRewards:loadPendingRewards()});
 
-function saveCollection(){try{localStorage.setItem(COL_KEY,JSON.stringify(state.collection))}catch(e){}}
+function saveCollection(){try{localStorage.setItem(COL_KEY,JSON.stringify(state.collection))}catch(e){} scheduleSync&&scheduleSync();}
 // Persist migration immediately so renamed entries survive the next reload
 saveCollection();
 function addToCollection(players){
@@ -4165,7 +4442,7 @@ function addToCollection(players){
 }
 // ── Level System ──────────────────────────────────────────────────────────────
 function loadPlayerLevel(){try{return JSON.parse(localStorage.getItem(KEYS.playerLevel)||'{"level":1,"xp":0}')}catch(e){return{level:1,xp:0}}}
-function savePlayerLevel(){try{localStorage.setItem(KEYS.playerLevel,JSON.stringify({level:state.playerLevel,xp:state.playerXP}))}catch(e){}}
+function savePlayerLevel(){try{localStorage.setItem(KEYS.playerLevel,JSON.stringify({level:state.playerLevel,xp:state.playerXP}))}catch(e){} scheduleSync&&scheduleSync();}
 (function(){const d=loadPlayerLevel();setState({playerLevel:d.level||1,playerXP:d.xp||0});})();
 // ── Firebase Ranking (REST API — kein SDK nötig) ──────────────────────────────
 const _FB_URL='https://tacticrogue-84d33-default-rtdb.europe-west1.firebasedatabase.app';
@@ -4175,7 +4452,8 @@ function getPlayerId(){
   return id;
 }
 function getPlayerName(){return localStorage.getItem(KEYS.playerName)||''}
-function setPlayerName(n){localStorage.setItem(KEYS.playerName,n);}
+function setPlayerName(n){localStorage.setItem(KEYS.playerName,n); scheduleSync&&scheduleSync();}
+window._setPlayerName = setPlayerName;
 
 async function fbSubmitScore(){
   const name=getPlayerName();if(!name)return;
@@ -4206,7 +4484,7 @@ async function fbLoadRanking(){
   }
 }
 function loadPendingRewards(){try{return JSON.parse(localStorage.getItem(KEYS.pendingRewards)||'[]')}catch(e){return[]}}
-function savePendingRewards(){try{localStorage.setItem(KEYS.pendingRewards,JSON.stringify(state.pendingLevelRewards))}catch(e){}}
+function savePendingRewards(){try{localStorage.setItem(KEYS.pendingRewards,JSON.stringify(state.pendingLevelRewards))}catch(e){} scheduleSync&&scheduleSync();}
 
 const XP_PER_LEAGUE=[100,230,480,850,1400]; // 5 leagues — exponentiell (14× ratio Kreisliga→Superliga)
 const XP_WIN_BONUS=350;
@@ -4310,15 +4588,13 @@ function saveCurrentTactics(){
   const name=prompt('Name für diese Taktik:',`Taktik ${state.savedTactics.length+1}`);
   if(!name)return;
   if(state.savedTactics.length>=8)state.savedTactics.shift();
-  state.savedTactics.push({name,tactics:{...state.tactics},formation:state.formation,defFormation:state.defFormation});
+  state.savedTactics.push({name,tactics:{...state.tactics}});
   writeSavedTactics();showToast(`"${name}" gespeichert!`);render();
 }
 function loadSavedTactic(idx){
   const s=state.savedTactics[idx];if(!s)return;
   setState({tactics:{...s.tactics}});
 
-  if(s.formation)setState({formation:s.formation});
-  if(s.defFormation)setState({defFormation:s.defFormation});
   rebuildTeamForFormation();
   showToast(`"${s.name}" geladen.`);render();
 }
@@ -5101,11 +5377,12 @@ function simulateMatch(){
   const oppEdge=tacticEdge(state.opponent.tactics,activeTactics);
   const tacticNet=myEdge-oppEdge;
 
-  // Taktik zählt mehr in engen Spielen — bei großem Ratingunterschied weniger Gewicht
+  // 1:1 Gewichtung: Taktik und Rating haben exakt gleichen Einfluss pro Einheit.
+  // (tacticNet + ratingDiff) × 0.70 — gleicher Faktor für beide.
+  // Beispiel: tacticNet=-10, ratingDiff=+10 → finalAdv=0 → 50/50.
+  //           tacticNet=0,   ratingDiff=+4  → finalAdv=2.8 → W=51%, L=28% (mehr Siege).
   const _ebs=state.eventBuff||{};
-  const closenessFactor=Math.max(0.35,1-Math.abs(ratingDiff)/22);
-  // ratingDiff ×0.60: moderater Faktor, Taktik bleibt ausschlaggebend
-  const combinedAdv=tacticNet*closenessFactor+ratingDiff*0.60+(_ebs.tacticEdge||0)+(_ebs.myRatingMod||0)*0.60;
+  const combinedAdv=(tacticNet+ratingDiff+(_ebs.tacticEdge||0)+(_ebs.myRatingMod||0))*0.70;
   // Preserve draft-relevant eventBuff fields for generateReplaceCards (called later on CTA click)
   setState({eventBuff:(_ebs.extraCards||_ebs.draftRarityBoost||_ebs.draftGuaranteedRare)
     ?{extraCards:_ebs.extraCards,draftRarityBoost:_ebs.draftRarityBoost,draftGuaranteedRare:_ebs.draftGuaranteedRare}
@@ -5319,6 +5596,66 @@ function progressPlayers(){
   return out;
 }
 
+/* ── SUPABASE BRIDGE ─────────────────────────────────────────────────────── */
+// Expose state getter for cloud sync
+window._gameState = () => state;
+// Expose showToast for auth script
+window._showToast = (msg) => { if(typeof showToast === 'function') showToast(msg); };
+// Hot-reload cloud data into running state (called after login)
+window._reloadCloudData = (data) => {
+  if (Array.isArray(data.trophies))       setState({trophies: data.trophies});
+  if (data.league_trophies)               setState({leagueTrophies: data.league_trophies});
+  if (Array.isArray(data.saved_tactics))  setState({savedTactics: data.saved_tactics});
+  if (Array.isArray(data.collection))     setState({collection: data.collection});
+  if (data.player_level != null)          setState({playerLevel: data.player_level, playerXP: data.player_xp || 0});
+  if (Array.isArray(data.pending_rewards))setState({pendingLevelRewards: data.pending_rewards});
+  if (data.username) setState({playerName: data.username});
+  // Active run — store for intro screen
+  window._pendingActiveRun = data.active_run || null;
+  render();
+};
+
+// ── ACTIVE RUN SYNC ──────────────────────────────────────────────────────────
+async function saveActiveRun() {
+  if (!supaUser) return;
+  const s = window._gameState ? window._gameState() : null;
+  if (!s || s.league === 0 && s.winsThisLeague === 0 && s.totalMatches === 0) return;
+  const run = {
+    league: s.league,
+    winsThisLeague: s.winsThisLeague,
+    totalMatches: s.totalMatches,
+    formation: s.formation,
+    defFormation: s.defFormation,
+    team: s.team,
+    bench: s.bench,
+    benchPositions: s.benchPositions,
+    lockedSlots: [...(s.lockedSlots || [])],
+    lockedBench: [...(s.lockedBench || [])],
+    tactics: {...s.tactics},
+    roles: s.roles,
+    customPosMit: s.customPosMit,
+    customPosOhne: s.customPosOhne,
+    perks: s.perks || [],
+    perkState: {...(s.perkState || {})},
+    permanentExtraCards: s.permanentExtraCards || 0,
+    xpGainedThisRun: s.xpGainedThisRun || 0,
+    savedAt: new Date().toISOString()
+  };
+  await supa.from('game_saves').upsert({
+    user_id: supaUser.id, active_run: run, updated_at: new Date().toISOString()
+  }, { onConflict: 'user_id' }).catch(e => console.warn('[Tactic] saveActiveRun:', e.message));
+}
+
+async function clearActiveRun() {
+  if (!supaUser) return;
+  window._pendingActiveRun = null;
+  await supa.from('game_saves').update({ active_run: null, updated_at: new Date().toISOString() })
+    .eq('user_id', supaUser.id).catch(e => console.warn('[Tactic] clearActiveRun:', e.message));
+}
+
+window._saveActiveRun  = saveActiveRun;
+window._clearActiveRun = clearActiveRun;
+
 /* ============================================================
    PHASES — INTRO, LINEUP, DRAFT, TACTICS, MATCH, RESULT
    ============================================================ */
@@ -5329,7 +5666,7 @@ function render(){
   const main=$('#main');main.innerHTML='';
   updateHeader();
   updateMobileNav();
-  ({intro:renderIntro,lineup:renderLineup,draft:renderDraft,tactics:renderTactics,match:renderMatch,'result-win':renderResultWin,'result-lose':renderResultLose,'replace-draft':renderReplaceDraft,'replace-pick':renderReplacePick,victory:renderVictory,trophies:renderTrophies,'pack-opening':renderPackOpening,collection:renderCollection,'perk-pick':renderPerkPick,'level-up':renderLevelUp,ranking:renderRanking,'run-history':renderRunHistory}[state.phase]||renderIntro)(main);
+  ({intro:renderIntro,lineup:renderLineup,draft:renderDraft,tactics:renderTactics,match:renderMatch,'result-win':renderResultWin,'result-lose':renderResultLose,'replace-draft':renderReplaceDraft,'replace-pick':renderReplacePick,victory:renderVictory,trophies:renderTrophies,'pack-opening':renderPackOpening,collection:renderCollection,'perk-pick':renderPerkPick,'level-up':renderLevelUp,ranking:renderRanking,'run-history':renderRunHistory,contact:renderContact,privacy:renderPrivacy,terms:renderTerms}[state.phase]||renderIntro)(main);
 }
 function updateHeader(){
   const isIntro=state.phase==='intro';
@@ -5511,6 +5848,33 @@ function buildIntroPitchPanel(){
   return wrap;
 }
 
+function restoreActiveRun(run){
+  if(!run)return;
+  setState({
+    phase:'lineup',
+    league:run.league||0,
+    winsThisLeague:run.winsThisLeague||0,
+    totalMatches:run.totalMatches||0,
+    formation:run.formation||'4-3-3',
+    defFormation:run.defFormation||'4-4-2',
+    team:run.team||{},
+    bench:run.bench||[],
+    benchPositions:run.benchPositions||[],
+    lockedSlots:new Set(run.lockedSlots||[]),
+    lockedBench:new Set(run.lockedBench||[]),
+    tactics:run.tactics||{...DEFAULT_TACTICS},
+    roles:run.roles||{},
+    customPosMit:run.customPosMit||{},
+    customPosOhne:run.customPosOhne||{},
+    perks:run.perks||[],
+    perkState:run.perkState||{glückssträhne:0,aufsteigerGames:0,routinierLeagues:0,serioesStreak:0,serioesBuff:false,comebackBuff:false,goldenerGriffActive:false,tauschUsed:0},
+    permanentExtraCards:run.permanentExtraCards||0,
+    xpGainedThisRun:run.xpGainedThisRun||0,
+  });
+  window._pendingActiveRun=null;
+  render();
+}
+
 function renderIntro(main){
   const supLeagueWon=(state.leagueTrophies&&(state.leagueTrophies['l4']||0)>=1);
   const uniqueCount=new Set((state.collection||[]).map(p=>p.name)).size;
@@ -5521,20 +5885,67 @@ function renderIntro(main){
   const svgArrow=`<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 2.5L10 7L4 11.5" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const svgLock=`<svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1.25" y="6.5" width="10.5" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 6.5V4.5a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="10.5" r="1.1" fill="currentColor"/></svg>`;
 
-  const _playDiv=el('div',{class:'intro-btn-start-play'});
-  _playDiv.innerHTML=svgPlay;
-  const btnStart=el('button',{class:'intro-btn-start',id:'iBtnStart',onclick:()=>startNewGame(false)},[
-    el('span',{class:'intro-btn-start-label'},'Starten'),_playDiv
-  ]);
+  // "Weiterspielen" if cloud run pending
+  const pendingRun = window._pendingActiveRun;
+  let btnStart;
+  if(pendingRun){
+    const leagueNames=['Kreisliga','Regionalliga','Bundesliga','Champions League','Superliga'];
+    const lgName=leagueNames[pendingRun.league]||'';
+    const _playDiv=el('div',{class:'intro-btn-start-play'});_playDiv.innerHTML=svgPlay;
+    const btnContinue=el('button',{class:'intro-btn-start',id:'iBtnContinue',style:{background:'linear-gradient(135deg,rgba(94,194,106,.15),rgba(94,194,106,.06))',border:'1.5px solid rgba(94,194,106,.4)'},onclick:()=>restoreActiveRun(pendingRun)},[
+      el('div',{style:{display:'flex',flexDirection:'column',alignItems:'flex-start',gap:'2px'}},[
+        el('span',{class:'intro-btn-start-label',style:{fontSize:'13px'}},['Weiterspielen']),
+        el('span',{style:{fontSize:'10px',color:'rgba(94,194,106,.7)',fontWeight:'600'}},[`${lgName} · ${pendingRun.winsThisLeague}/4 Siege`])
+      ]),_playDiv
+    ]);
+    const _playDiv2=el('div',{class:'intro-btn-start-play',style:{opacity:'.5'}});_playDiv2.innerHTML=svgPlay;
+    const btnNew=el('button',{class:'intro-btn-start',id:'iBtnStart',style:{marginTop:'8px',opacity:'.55',fontSize:'11px',padding:'10px 16px'},onclick:()=>startNewGame(false)},[
+      el('span',{class:'intro-btn-start-label',style:{fontSize:'11px'}},['Neu starten']),_playDiv2
+    ]);
+    btnStart=el('div',{style:{display:'flex',flexDirection:'column'}},[btnContinue,btnNew]);
+  } else {
+    const _playDiv=el('div',{class:'intro-btn-start-play'});_playDiv.innerHTML=svgPlay;
+    btnStart=el('button',{class:'intro-btn-start',id:'iBtnStart',onclick:()=>startNewGame(false)},[
+      el('span',{class:'intro-btn-start-label'},'Starten'),_playDiv
+    ]);
+  }
 
   const modeCol=buildIntroModeCol(svgArrow,svgLock,supLeagueWon,colUnlocked,uniqueCount,colPct);
   const leftPanel=buildIntroLeftPanel(btnStart,modeCol);
   const rightPanel=buildIntroPitchPanel();
 
-  const wrap=el('div',{class:'phase intro-wrap'});
+  // Auth button — top-right of intro screen
+  const authBtnLabel = supaUser
+    ? (localStorage.getItem('tactic_player_name') || supaUser.email.split('@')[0]).slice(0,12)
+    : 'Login';
+  const authBtnIcon = `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M3 18c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+  const introAuthBtn = el('button',{
+    id:'btnAuth',
+    class:'btn-auth intro'+(supaUser?' logged-in':''),
+    style:{position:'absolute',top:'12px',right:'12px',zIndex:'10'},
+    onclick:()=>openAuthModal(supaUser?'user':'login')
+  });
+  introAuthBtn.innerHTML = authBtnIcon + `<span>${authBtnLabel}</span>`;
+
+  const footer=el('div',{style:{position:'absolute',bottom:'10px',left:'0',right:'0',textAlign:'center',zIndex:'20',pointerEvents:'none'}});
+  footer.innerHTML=`
+    <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:5px;pointer-events:auto">
+      <a href="#" onclick="event.preventDefault();setState({phase:'contact'});render()" style="color:rgba(94,194,106,.55);font-size:10px;font-weight:600;text-decoration:none;letter-spacing:.3px" onmouseover="this.style.color='#5ec26a'" onmouseout="this.style.color='rgba(94,194,106,.55)'">Contact</a>
+      <span style="color:rgba(255,255,255,.15);font-size:10px">·</span>
+      <a href="#" onclick="event.preventDefault();setState({phase:'privacy'});render()" style="color:rgba(94,194,106,.55);font-size:10px;font-weight:600;text-decoration:none;letter-spacing:.3px" onmouseover="this.style.color='#5ec26a'" onmouseout="this.style.color='rgba(94,194,106,.55)'">Privacy Policy</a>
+      <span style="color:rgba(255,255,255,.15);font-size:10px">·</span>
+      <a href="#" onclick="event.preventDefault();setState({phase:'terms'});render()" style="color:rgba(94,194,106,.55);font-size:10px;font-weight:600;text-decoration:none;letter-spacing:.3px" onmouseover="this.style.color='#5ec26a'" onmouseout="this.style.color='rgba(94,194,106,.55)'">Terms of Use</a>
+    </div>
+    <div style="color:rgba(255,255,255,.18);font-size:9px;line-height:1.5;pointer-events:none">
+      TacticRogue is an unofficial fan game, not affiliated with or endorsed by any football organisation.<br>For entertainment only. For enquiries, contact <span style="color:rgba(94,194,106,.5);pointer-events:auto">admin.tacticrogue@gmail.com</span>
+    </div>`;
+
+  const wrap=el('div',{class:'phase intro-wrap',style:{position:'relative'}});
+  wrap.appendChild(introAuthBtn);
   wrap.appendChild(leftPanel);
   wrap.appendChild(rightPanel);
   main.appendChild(wrap);
+  main.appendChild(footer);
 }
 
 // ── Guaranteed state shape at the start of every new run ─────
@@ -5561,7 +5972,7 @@ function resetRunState(impossible,collectionMode){
 function startNewGame(impossible=false,collectionMode=false){
   resetRunState(impossible,collectionMode);
   setState({phase:'lineup'});render();
-
+  window._clearActiveRun&&window._clearActiveRun();
 }
 
 /* ----- LINEUP ----- */
@@ -6549,7 +6960,13 @@ function buildTacticLeftPanel(TA,F,TAC_STRUCTURE,TABS,keyMeta,myAvg){
       item.addEventListener('click',()=>{_loadDrop.remove();_loadDrop=null;loadSavedTactic(idx);render();});
       _loadDrop.appendChild(item);
     });
-    loadBtn.appendChild(_loadDrop);
+    // Append to body with fixed positioning to escape overflow:hidden on .tac-panel
+    const rect=loadBtn.getBoundingClientRect();
+    _loadDrop.style.position='fixed';
+    _loadDrop.style.top=(rect.bottom+4)+'px';
+    _loadDrop.style.left=rect.left+'px';
+    _loadDrop.style.zIndex='9999';
+    document.body.appendChild(_loadDrop);
     const close=()=>{if(_loadDrop){_loadDrop.remove();_loadDrop=null;}document.removeEventListener('click',close);};
     setTimeout(()=>document.addEventListener('click',close),0);
   });
@@ -6939,7 +7356,6 @@ function buildTacticEditor(){
       const s=state.savedTactics[idx];
       const chip=el('div',{class:'saved-tac-chip'});
       chip.appendChild(el('span',{class:'chip-name'},[s.name]));
-      chip.appendChild(el('span',{class:'chip-form'},[s.formation||'']));
       chip.appendChild(el('button',{class:'chip-del',onclick:(e)=>{e.stopPropagation();deleteSavedTactic(idx)}},['✕']));
       chip.addEventListener('click',()=>loadSavedTactic(idx));
       strip.appendChild(chip);
@@ -7844,7 +8260,7 @@ function finishMatch(){
       addLeagueTrophy(state.league);
       if(state.league>=LEAGUES.length-1){
         // Run complete — Champion pack (index 6) as reward
-        addTrophy();awardRunXP(true);saveRunToHistory(true);
+        addTrophy();awardRunXP(true);saveRunToHistory(true);window._clearActiveRun&&window._clearActiveRun();
         const pool=(state.impossibleMode||state.collectionMode)?PACK_CONFIG_IMPOSSIBLE:PACK_CONFIG;
         setState({packCards:generatePackCards(pool.length-1)});
 
@@ -7876,9 +8292,8 @@ function finishMatch(){
     _ps2.serioesStreak=0;_ps2.serioesBuff=false;
     awardRunXP(false);saveRunToHistory(false);
     setState({packCards:generatePackCards(state.league)});
-
     setState({packLeague:state.league});
-
+    window._clearActiveRun&&window._clearActiveRun();
     setState({phase:'result-lose'});
 
   }
@@ -7921,14 +8336,42 @@ function renderTacticPanels(r){
       {name:'Pressingmaschine',match:()=>o('pressing')>=4&&o('deflinie')>=3},
     ];
     const oppStil=(STIL_NAMES.find(s=>s.match())||{name:'Ausgewogen'}).name;
-    // Tier 3: experiment suggestions based on matchup
-    if(o('pressing')>=3&&t('aufbau')===2) tips.push(`Gegner presste hoch (${oppStil}). Versuche: Aufbau auf 0 oder 4 — nie neutral gegen hohes Pressing.`);
-    if(o('konter')>=3&&o('deflinie')<=2&&t('deflinie')>=3) tips.push(`Gegner konterte aus tiefem Block (${oppStil}). Versuche: Deflinie runter auf 1–2, um Konterräume zu schließen.`);
-    if(o('deflinie')>=3&&t('konter')<=2) tips.push(`Gegner spielte mit hoher Kette (${oppStil}). Versuche: Konter auf 3–4 + Tempo auf 3, um den Raum zu nutzen.`);
-    if(o('breite')>=3&&t('defform')===2) tips.push(`Gegner spielte breit (${oppStil}). Versuche: Defensivform auf 0–1, damit deine Kette nach außen schiebt.`);
-    if(o('pressing')<=1&&o('deflinie')<=1&&t('kreativ')<=2) tips.push(`Gegner stand tief (${oppStil}). Versuche: Kreativität auf 3–4, um den Block mit Einzelaktionen zu öffnen.`);
-    if(!tips.length&&o('gegenpressing')>=3) tips.push(`Gegner presste nach Ballverlust sofort nach (${oppStil}). Versuche: Gegenpressing auf 3–4, um den Kampf im Mittelfeld anzunehmen.`);
-    if(!tips.length) tips.push(`Versuche im nächsten Spiel einen anderen Spielstil-Schwerpunkt — z.B. mehr Breite oder eine tiefere Abwehrlinie — und beobachte die Reaktion des Gegners.`);
+    // Tier 3: experiment suggestions — only recommend values the player has NOT already set
+    if(o('pressing')>=3&&t('aufbau')===2)
+      tips.push(`Gegner presste hoch (${oppStil}). Versuche: Aufbau auf 0 oder 4 — nie neutral gegen hohes Pressing.`);
+    if(o('konter')>=3&&o('deflinie')<=2&&t('deflinie')>=3)
+      tips.push(`Gegner konterte aus tiefem Block (${oppStil}). Versuche: Deflinie auf 1–2, um Konterräume zu schließen.`);
+    if(o('deflinie')>=3&&t('konter')<=2)
+      tips.push(`Gegner spielte mit hoher Kette (${oppStil}). Versuche: Konter auf 3–4 + Tempo auf 3, um den Raum dahinter zu nutzen.`);
+    if(o('breite')>=3&&t('defform')===2)
+      tips.push(`Gegner spielte breit (${oppStil}). Versuche: Defensivform auf 0–1, damit deine Kette nach außen schiebt.`);
+    if(o('pressing')<=1&&o('deflinie')<=1&&t('kreativ')<=2)
+      tips.push(`Gegner stand tief (${oppStil}). Versuche: Kreativität auf 3–4, um den Block mit Einzelaktionen zu öffnen.`);
+    // BUG FIX: nur empfehlen wenn Spieler Gegenpressing NICHT bereits auf 3-4 hat
+    if(!tips.length&&o('gegenpressing')>=3&&t('gegenpressing')<=2)
+      tips.push(`Gegner presste nach Ballverlust sofort nach (${oppStil}). Versuche: Gegenpressing auf 3–4, um den Kampf im Mittelfeld anzunehmen.`);
+    // Weitere spezifische Tipps
+    if(!tips.length&&o('aufbau')<=1&&t('pressing')<=2)
+      tips.push(`Gegner baute kurz und geduldig auf (${oppStil}). Versuche: Pressing auf 3–4, um seinen Aufbau direkt zu stören.`);
+    if(!tips.length&&o('kreativ')>=3&&t('deckung')<=2)
+      tips.push(`Gegner spielte kreativ und unberechenbar (${oppStil}). Versuche: Deckung auf 3–4, um die Freiheiten seiner Spieler zu begrenzen.`);
+    if(!tips.length&&o('deckung')>=3&&t('breite')<=2)
+      tips.push(`Gegner deckte konsequent Mann (${oppStil}). Versuche: Breite auf 3–4, um die Deckung auseinanderzuziehen.`);
+    if(!tips.length&&o('tempo')>=3&&t('deflinie')>=3)
+      tips.push(`Gegner spielte vertikal und schnell (${oppStil}). Versuche: Deflinie auf 1–2, damit kein Raum hinter der Kette entsteht.`);
+    if(!tips.length&&o('konter')>=3&&t('gegenpressing')<=2)
+      tips.push(`Gegner schaltete nach Ballgewinn sofort um (${oppStil}). Versuche: Gegenpressing auf 3–4, um die Übergangsphasen zu kontrollieren.`);
+    if(!tips.length&&t('pressing')>=3&&t('deflinie')<=1)
+      tips.push(`Hohes Pressing mit sehr tiefer Linie erzeugt gefährliche Lücken im Mittelfeld — versuche Pressing und Deflinie näher beieinander zu halten.`);
+    // Kontext-basierter Fallback statt generischem Text
+    if(!tips.length){
+      if(r&&r.tacticNet<-1)
+        tips.push(`Deine Taktik lag im Nachteil gegen ${oppStil}. Versuche beim nächsten Mal den gegenteiligen Ansatz: ${t('pressing')>=3?'weniger Pressing, mehr Konter':'mehr Pressing gegen den Aufbau des Gegners'}.`);
+      else if(r&&r.ratingDiff<-4)
+        tips.push(`Der Gegner war kaderbedingt überlegen. Taktisch war die Partie ausgeglichen — stärke das Team mit besseren Spielern aus dem Draft.`);
+      else
+        tips.push(`Beobachte den Spielstil des Gegners genau und reagiere mit dem Gegenteil: tiefer Block gegen Angriffsdrang, Konter gegen hohe Linien.`);
+    }
     return tips[0];
   }
   const nextTip=buildNextTip(r);
@@ -8103,8 +8546,8 @@ function detectMatchTriggers(t,o,r){
     h.push({score:8,ok:false,txt:'Deine extreme Abwehrlinie wurde durch schnelle Konter wiederholt hinterlaufen.'});
   if(t('pressing')>=4&&o('aufbau')<=1&&o('tempo')<=1)
     h.push({score:8,ok:true, txt:'Totalpressing hat den langsamen Aufbau des Gegners vollständig zerstört.'});
-  if(t('pressing')>=4&&o('konter')>=3&&o('tempo')>=3)
-    h.push({score:7,ok:false,txt:'Volles Pressing ließ dem Konter des Gegners immer wieder freie Räume hinter der Abwehr.'});
+  if(t('pressing')>=4&&t('deflinie')>=3&&o('konter')>=3&&o('tempo')>=3)
+    h.push({score:7,ok:false,txt:'Volles Pressing mit hoher Linie ließ dem schnellen Konter des Gegners immer wieder freie Räume hinter der Abwehr.'});
   if(t('pressing')<=1&&t('deflinie')<=1&&o('mentality')>=4&&o('tempo')>=4)
     h.push({score:7,ok:true, txt:'Der tiefe Block hat den ultra-aggressiven Angriff des Gegners ins Leere laufen lassen.'});
   // Aufbau/Konter konter-chains
@@ -8127,9 +8570,9 @@ function detectMatchTriggers(t,o,r){
   if(t('breite')>=3&&o('defform')<=1)
     h.push({score:7,ok:false,txt:'Breites Spiel gegen eine ohnehin breite Abwehr — die Flanken wurden gut zugestellt.'});
   // Kohärenz
-  if(o('mentality')>=4&&t('pressing')<=1)
+  if(o('mentality')>=4&&t('pressing')<=1&&t('deflinie')<=1)
     h.push({score:7,ok:true, txt:'Der ultra-offensive Gegner hat sich am kompakten Tiefblock die Zähne ausgebissen.'});
-  if(t('konter')>=3&&t('tempo')>=3&&t('pressing')<=1)
+  if(t('konter')>=3&&t('tempo')>=3&&t('pressing')<=1&&t('deflinie')<=1)
     h.push({score:7,ok:true, txt:'Kohärentes Kontersystem hat auf beiden Seiten des Spiels Wirkung gezeigt.'});
   // Phase-based hints: player quality vs. opponent quality by phase
   if(r&&r.myPhase&&r.oppPhase){
@@ -8153,8 +8596,10 @@ function extractTacticStats(r){
       hints.push({score:5,ok:true, txt:'Dein direktes Spiel hat sich gegen das hohe Pressing bewährt.'});
     else if(t('aufbau')<=1)
       hints.push({score:6,ok:false,txt:'Kurzer Aufbau gegen das starke Pressing des Gegners — der Ball kam immer wieder verloren.'});
+    else if(t('konter')>=3)
+      hints.push({score:3,ok:false,txt:'Das Pressing störte den Aufbau — die Konterbereitschaft hat das etwas kompensiert, aber klarer Aufbau (0 oder 4) wäre besser.'});
     else
-      hints.push({score:3,ok:false,txt:'Das Pressing des Gegners hat deinen Spielaufbau immer wieder gestört.'});
+      hints.push({score:3,ok:false,txt:'Neutraler Aufbau gegen hohes Pressing — klare Entscheidung (kurze Pässe oder lange Bälle) wäre effektiver gewesen.'});
     if(t('tempo')>=3)
       hints.push({score:2,ok:true, txt:'Das hohe Tempo hat geholfen, trotz des Pressings Räume zu finden.'});
     if(t('konter')>=3)
@@ -8214,14 +8659,17 @@ function extractTacticStats(r){
   if(o('gegenpressing')>=3){
     if(t('aufbau')>=3)
       hints.push({score:3,ok:true, txt:'Das direkte Spiel hat das Gegenpressing des Gegners gut umgangen.'});
-    else if(t('kreativ')<=1)
-      hints.push({score:3,ok:false,txt:'Das sofortige Gegenpressing nach Ballverlust hat immer wieder Probleme bereitet.'});
+    else if(t('aufbau')===2)
+      hints.push({score:3,ok:false,txt:'Neutraler Aufbau gegen aggressives Gegenpressing — klarer Aufbau (kurz oder lang) hätte die Übergangsphasen nach Ballverlust besser abgesichert.'});
   }
 
   // ── GEGNER LÄSST KONTER ZU ────────────────────────────────────────────
   if(o('gegenpressing')<=1){
-    if(t('konter')>=3&&t('tempo')>=3)
+    // Konter lohnt sich nur wenn Gegner aktiv genug presst — gegen passive Teams bringt Konter nichts (Engine: konter vs o.pressing<=1 = -2)
+    if(t('konter')>=3&&t('tempo')>=3&&o('pressing')>=2)
       hints.push({score:4,ok:true, txt:'Die schnellen Konter haben die fehlende Ballabsicherung des Gegners ausgenutzt.'});
+    else if(t('konter')>=3&&t('tempo')>=3&&o('pressing')<=1)
+      hints.push({score:3,ok:false,txt:'Konterbereitschaft gegen einen passiven Gegner — ohne Gegendruck entstehen kaum Kontermomente.'});
     else if(t('konter')<=1)
       hints.push({score:3,ok:false,txt:'Nach Ballgewinn ließ der Gegner Räume offen — die wurden nicht genutzt.'});
   }
@@ -8253,8 +8701,10 @@ function extractTacticStats(r){
       hints.push({score:4,ok:true, txt:'Die Manndeckung hat dem kreativen Spiel des Gegners kaum Raum gelassen.'});
     else if(t('deckung')<=1)
       hints.push({score:4,ok:false,txt:'Das kreative Spiel des Gegners hat in der Raumdeckung immer wieder Lücken gefunden.'});
+    else if(t('pressing')>=3)
+      hints.push({score:2,ok:false,txt:'Das hohe Pressing hat kreative Aktionen erschwert, aber konsequentere Manndeckung hätte die Freiheiten noch mehr eingeschränkt.'});
     else
-      hints.push({score:2,ok:false,txt:'Das unvorhersehbare Spiel des Gegners hat die neutrale Deckung vor Probleme gestellt.'});
+      hints.push({score:2,ok:false,txt:'Das kreative Spiel des Gegners fand in der neutralen Deckung Freiräume — Manndeckung (3–4) hätte die Schlüsselspieler enger begleitet.'});
   }
   // ── DECKUNG vs FLÜGELSPIEL ────────────────────────────────────────────
   if(t('deckung')>=3&&o('breite')>=3)
@@ -8266,8 +8716,10 @@ function extractTacticStats(r){
       hints.push({score:5,ok:false,txt:'Die kompakte Formation war gegen das breite Spiel des Gegners anfällig — die Außenbahnen blieben schwach besetzt.'});
     else if(t('defform')<=1)
       hints.push({score:4,ok:true, txt:'Die breite Defensivaufstellung hat die Flankenangriffe des Gegners gut abgedeckt.'});
+    else if(t('deckung')>=3)
+      hints.push({score:2,ok:false,txt:'Manndeckung und neutrale Defensivform gegen breites Spiel — eine breitere Aufstellung (0–1) hätte die Außenbahnen zusätzlich strukturell abgesichert.'});
     else
-      hints.push({score:2,ok:false,txt:'Das breite Angriffsspiel des Gegners hat die Formation immer wieder auf die Probe gestellt.'});
+      hints.push({score:2,ok:false,txt:'Neutrale Defensivform gegen das breite Spiel des Gegners — eine breitere Aufstellung (0–1) hätte die Flanken konsequenter abgedeckt.'});
   }
   if(t('defform')<=1&&o('breite')<=1)
     hints.push({score:3,ok:false,txt:'Die breite Defensivformation hat dem zentralen Angriffsspiel des Gegners Raum im Inneren gelassen.'});
@@ -8309,9 +8761,12 @@ function extractTacticStats(r){
   if(t('deckung')>=3&&t('defform')<=1)
     hints.push({score:3,ok:false,txt:'Manndeckung in breiter Formation — die Deckung wurde immer wieder aus ihrer Position gezogen.'});
 
-  // ── EIGENE HOHE LINIE vs GEGNERISCHES KONTERN ─────────────────────────
-  if(t('deflinie')>=3&&o('konter')>=3)
-    hints.push({score:3,ok:false,txt:'Die hohe Abwehrlinie war gegen das Konterspiel des Gegners anfällig.'});
+  // ── EIGENE HOHE LINIE vs GEGNERISCHES KONTERN/TEMPO ──────────────────
+  // Engine penalisiert t.deflinie>=3 primär über o.tempo, nicht o.konter — beide kombiniert am gefährlichsten
+  if(t('deflinie')>=3&&o('konter')>=3&&o('tempo')>=3)
+    hints.push({score:4,ok:false,txt:'Die hohe Abwehrlinie war gegen das schnelle Konterspiel des Gegners gefährlich anfällig.'});
+  else if(t('deflinie')>=3&&o('tempo')>=3)
+    hints.push({score:3,ok:false,txt:'Das schnelle Spiel des Gegners hat die hohe Abwehrlinie wiederholt unter Druck gesetzt.'});
 
   // ── KADER vs TAKTIK ───────────────────────────────────────────────────
   if(r.ratingDiff<=-5&&r.won)
@@ -8497,7 +8952,7 @@ function renderReplaceDraft(main){
   const needsScroll=state.draftCards.length>5;
   const cardsContainer=needsScroll?el('div',{class:'draft-cards-scroll'},[cardsDiv]):cardsDiv;
   // Skip button — top right, pill-btn-weiter style
-  const weiterBtn=el('button',{class:'rp-zuruck-btn',style:{position:'absolute',top:'16px',right:'20px',zIndex:'10'},onclick:()=>{setState({draftCards:[]});proceedToNextLineup();}},['Ohne Karte weiter']);
+  const weiterBtn=el('button',{class:'pill-btn-weiter',style:{position:'absolute',top:'16px',right:'20px',zIndex:'10'},onclick:()=>{setState({draftCards:[]});proceedToNextLineup();}},['Ohne Karte weiter']);
   const phase=el('div',{class:`phase draft-phase replace-draft-phase ${lgClass}`},[
     weiterBtn,
     el('div',{class:'draft-center-block'},[
@@ -8962,20 +9417,32 @@ function renderRanking(main){
   const sub=el('div',{class:'ranking-sub'},['Top 100 · Sortiert nach Level']);
   phase.append(backBtn,title,sub);
 
-  // Player name input
-  const nameInput=el('input',{class:'ranking-name-input',type:'text',placeholder:'Dein Name im Ranking...',maxlength:20});
-  nameInput.value=myName;
-  const saveBtn=el('button',{class:'ranking-name-save',onclick:async()=>{
-    const n=nameInput.value.trim();
-    if(!n)return;
-    setPlayerName(n);saveBtn.textContent='✓ Gespeichert';
-    await fbSubmitScore();
-    setTimeout(()=>saveBtn.textContent='Speichern',1500);
-    loadAndRender();
-  }},'Speichern');
-  phase.appendChild(el('div',{class:'ranking-name-row'},[nameInput,saveBtn]));
-
-  if(!myName) phase.appendChild(el('div',{class:'ranking-no-name'},['Gib einen Namen ein um im Ranking zu erscheinen.']));
+  // Player name — auto from account if logged in, else manual input
+  if(supaUser && myName){
+    phase.appendChild(el('div',{class:'ranking-name-row',style:{alignItems:'center',gap:'8px'}},[
+      el('div',{style:{display:'flex',alignItems:'center',gap:'7px',background:'rgba(94,194,106,.07)',border:'1px solid rgba(94,194,106,.2)',borderRadius:'9px',padding:'8px 13px',flex:'1'}},[
+        el('svg',{width:'14',height:'14',viewBox:'0 0 20 20',fill:'none',style:{flexShrink:'0',opacity:'.7'}},[
+          el('circle',{cx:'10',cy:'7',r:'4',stroke:'#5ec26a','stroke-width':'1.5'}),
+          el('path',{d:'M3 18c0-3.866 3.134-7 7-7s7 3.134 7 7',stroke:'#5ec26a','stroke-width':'1.5','stroke-linecap':'round'})
+        ]),
+        el('span',{style:{fontSize:'13px',fontWeight:'700',color:'#f0f3f7'}},[myName]),
+        el('span',{style:{fontSize:'10px',color:'#5ec26a',marginLeft:'4px'}},['✓ Account'])
+      ])
+    ]));
+  } else {
+    const nameInput=el('input',{class:'ranking-name-input',type:'text',placeholder:'Dein Name im Ranking...',maxlength:20});
+    nameInput.value=myName;
+    const saveBtn=el('button',{class:'ranking-name-save',onclick:async()=>{
+      const n=nameInput.value.trim();
+      if(!n)return;
+      setPlayerName(n);saveBtn.textContent='✓ Gespeichert';
+      await fbSubmitScore();
+      setTimeout(()=>saveBtn.textContent='Speichern',1500);
+      loadAndRender();
+    }},'Speichern');
+    phase.appendChild(el('div',{class:'ranking-name-row'},[nameInput,saveBtn]));
+    if(!myName) phase.appendChild(el('div',{class:'ranking-no-name'},['Gib einen Namen ein oder melde dich an um im Ranking zu erscheinen.']));
+  }
 
   // Table container
   const tableEl=el('div',{class:'ranking-table'});
@@ -9133,7 +9600,7 @@ function renderPerkPick(main){
   ]);
   main.appendChild(phase);
 }
-function proceedToNextLineup(){setState({phase:'lineup'});render();}
+function proceedToNextLineup(){setState({phase:'lineup'});render();window._saveActiveRun&&window._saveActiveRun();}
 
 /* ----- VICTORY / TROPHIES ----- */
 function renderVictory(main){
@@ -9157,6 +9624,215 @@ function renderVictory(main){
       el('button',{class:'rp-zuruck-btn',onclick:()=>{setState({_trophyOrigin:'victory',phase:'trophies'});render()}},['Trophäen →']),
     ])
   ]));
+}
+function renderContact(main){
+  const wrap=el('div',{class:'phase',style:{overflowY:'auto',padding:'24px 20px 40px',maxWidth:'640px',margin:'0 auto',width:'100%',boxSizing:'border-box'}});
+
+  wrap.appendChild(el('button',{class:'rp-zuruck-btn',style:{marginBottom:'24px',alignSelf:'flex-start'},onclick:()=>{setState({phase:'intro'});render();}},'← Zurück'));
+
+  wrap.appendChild(el('div',{style:{fontSize:'28px',fontWeight:'900',color:'#f0f3f7',marginBottom:'10px',letterSpacing:'-0.5px'}},['Kontakt']));
+  wrap.appendChild(el('div',{style:{fontSize:'13px',color:'#8b97a6',lineHeight:'1.65',marginBottom:'24px'}},['TacticRogue wird von einem kleinen unabhängigen Team entwickelt. Wir lesen jede Nachricht und freuen uns von dir zu hören — ob Feedback, ein Bugbericht oder eine Kooperationsidee.']));
+
+  // Email box
+  const emailBox=el('a',{href:'mailto:admin.tacticrogue@gmail.com',style:{display:'inline-flex',alignItems:'center',gap:'10px',background:'#1d232c',border:'1px solid #2e3542',borderRadius:'10px',padding:'13px 18px',marginBottom:'28px',textDecoration:'none',transition:'border-color .15s'},onmouseover:function(){this.style.borderColor='rgba(94,194,106,.5)'},onmouseout:function(){this.style.borderColor='#2e3542'}});
+  emailBox.innerHTML=`<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="13" rx="2" stroke="#5ec26a" stroke-width="1.4"/><path d="M2 7l8 5 8-5" stroke="#5ec26a" stroke-width="1.4" stroke-linecap="round"/></svg><span style="color:#5ec26a;font-size:13px;font-weight:700">admin.tacticrogue@gmail.com</span>`;
+  wrap.appendChild(emailBox);
+
+  wrap.appendChild(el('div',{style:{fontSize:'15px',fontWeight:'800',color:'#f0f3f7',marginBottom:'14px'}},['Womit können wir helfen?']));
+  const items=[
+    ['Feedback & Ideen','Erzähl uns, was dir gefällt und was du ändern würdest. Taktikvorschläge und Feature-Wünsche sind immer willkommen.'],
+    ['Bugmeldungen','Etwas funktioniert nicht? Beschreib kurz was passiert ist, auf welchem Gerät und Browser, und wir schauen es uns an.'],
+    ['Zusammenarbeit & Partnerschaften','Interesse an einer Kooperation oder Sponsoring? Meld dich — wir freuen uns über die Nachricht.'],
+    ['Presse & Medien','Für Interviews, Artikel oder Assets erreichst du uns ebenfalls per E-Mail.'],
+    ['Datenschutzfragen','Bei Fragen zu deinen Daten oder deinem Account schreib uns direkt an.'],
+  ];
+  const list=el('div',{style:{display:'flex',flexDirection:'column',gap:'14px',marginBottom:'28px'}});
+  items.forEach(([title,desc])=>{
+    list.appendChild(el('div',{style:{display:'flex',gap:'10px',alignItems:'flex-start'}},[
+      el('div',{style:{width:'5px',height:'5px',borderRadius:'50%',background:'#5ec26a',flexShrink:'0',marginTop:'6px'}}),
+      el('div',{},[
+        el('span',{style:{fontWeight:'700',color:'#f0f3f7',fontSize:'12px'}},[title+'. ']),
+        el('span',{style:{color:'#8b97a6',fontSize:'12px',lineHeight:'1.6'}},[desc])
+      ])
+    ]));
+  });
+  wrap.appendChild(list);
+
+  wrap.appendChild(el('div',{style:{fontSize:'15px',fontWeight:'800',color:'#f0f3f7',marginBottom:'10px'}},['Antwortzeit']));
+  wrap.appendChild(el('div',{style:{fontSize:'12px',color:'#8b97a6',lineHeight:'1.65'}},['Wir antworten in der Regel innerhalb weniger Werktage. Danke, dass du TacticRogue spielst!']));
+
+  main.appendChild(wrap);
+}
+
+function renderPrivacy(main){
+  const wrap=el('div',{style:{position:'absolute',inset:'0',overflowY:'auto',padding:'24px 20px 48px',boxSizing:'border-box'}});
+  const inner=el('div',{style:{maxWidth:'640px',margin:'0 auto',width:'100%'}});
+
+  inner.appendChild(el('button',{class:'rp-zuruck-btn',style:{marginBottom:'20px'},onclick:()=>{setState({phase:'intro'});render();}},'← Zurück'));
+
+  inner.appendChild(el('div',{style:{fontSize:'26px',fontWeight:'900',color:'#f0f3f7',marginBottom:'4px',letterSpacing:'-0.5px'}},['Datenschutzerklärung']));
+  inner.appendChild(el('div',{style:{fontSize:'11px',color:'rgba(255,255,255,.3)',marginBottom:'28px'}},['Zuletzt aktualisiert: 16. Juni 2026']));
+
+  function section(title, content){
+    const s=el('div',{style:{marginBottom:'24px'}});
+    s.appendChild(el('div',{style:{fontSize:'13px',fontWeight:'800',color:'#f0f3f7',marginBottom:'8px'}},[''+title]));
+    s.appendChild(el('div',{style:{fontSize:'12px',color:'#8b97a6',lineHeight:'1.7'}},content));
+    return s;
+  }
+  function ul(items){
+    const d=el('div',{style:{display:'flex',flexDirection:'column',gap:'6px',marginTop:'8px'}});
+    items.forEach(html=>{
+      const row=el('div',{style:{display:'flex',gap:'9px',alignItems:'flex-start'}});
+      const dot=el('div',{style:{width:'4px',height:'4px',borderRadius:'50%',background:'#5ec26a',flexShrink:'0',marginTop:'6px'}});
+      const txt=el('div',{style:{fontSize:'12px',color:'#8b97a6',lineHeight:'1.65'}});
+      txt.innerHTML=html;
+      row.appendChild(dot);row.appendChild(txt);d.appendChild(row);
+    });
+    return d;
+  }
+
+  inner.appendChild(section('1. Kurzfassung',[
+    'TacticRogue ist ein kostenloses Fußball-Taktikspiel im Browser. Du kannst das Spiel vollständig ohne Account nutzen — dein Fortschritt wird lokal in deinem Browser gespeichert. Ein optionaler Account ermöglicht es, deinen Fortschritt geräteübergreifend zu sichern und wiederherzustellen. Wir schalten keine Werbung, verkaufen keine Daten und geben sie nicht an Dritte weiter.'
+  ]));
+
+  const s2=el('div',{style:{marginBottom:'24px'}});
+  s2.appendChild(el('div',{style:{fontSize:'13px',fontWeight:'800',color:'#f0f3f7',marginBottom:'8px'}},['2. Welche Daten wir erheben']));
+  const u2=ul([
+    '<strong style="color:#d0d9e4">Account-Daten (optional).</strong> Wenn du dich registrierst, speichern wir deine E-Mail-Adresse und einen von dir gewählten Anzeigenamen über Supabase. Diese Daten dienen ausschließlich der geräteübergreifenden Synchronisierung deines Spielfortschritts. Du kannst deinen Account jederzeit löschen lassen.',
+    '<strong style="color:#d0d9e4">Spielfortschritt.</strong> Trophäen, Run-Verlauf, Taktiken und Spielerlevel werden im Local Storage deines Browsers gespeichert und — sofern du eingeloggt bist — mit deinem Account synchronisiert.',
+    '<strong style="color:#d0d9e4">Kein Tracking, keine Werbung.</strong> Wir verwenden keine Analyse- oder Werbetools von Drittanbietern und verfolgen dich nicht über andere Webseiten.',
+  ]);
+  s2.appendChild(u2);
+  inner.appendChild(s2);
+
+  inner.appendChild(section('3. Local Storage',[
+    'Wir nutzen den Local Storage deines Browsers, um deinen Spielstand zwischen Sitzungen zu speichern. Diese Daten verlassen dein Gerät nicht, es sei denn, du erstellst einen Account — in diesem Fall werden sie sicher mit deinem Account synchronisiert.'
+  ]));
+
+  inner.appendChild(section('4. Account und Cloud-Synchronisierung',[
+    'Bei Account-Erstellung werden deine Spieldaten in einer Datenbank bei Supabase (supabase.com) gespeichert. Die Authentifizierung erfolgt sicher per E-Mail und Passwort. Passwörter werden nicht im Klartext gespeichert. Deine Daten sind durch Row Level Security geschützt — nur du hast Zugriff auf deine eigenen Daten.'
+  ]));
+
+  const s5=el('div',{style:{marginBottom:'24px'}});
+  s5.appendChild(el('div',{style:{fontSize:'13px',fontWeight:'800',color:'#f0f3f7',marginBottom:'8px'}},['5. Deine Rechte']));
+  s5.appendChild(el('div',{style:{fontSize:'12px',color:'#8b97a6',lineHeight:'1.7',marginBottom:'8px'}},['Gemäß DSGVO hast du das Recht auf:']));
+  s5.appendChild(ul([
+    'Auskunft über die bei uns gespeicherten personenbezogenen Daten',
+    'Berichtigung unrichtiger Daten',
+    'Löschung deines Accounts und aller damit verbundenen Daten',
+    'Widerspruch gegen oder Einschränkung der Verarbeitung',
+  ]));
+  s5.appendChild(el('div',{style:{fontSize:'12px',color:'#8b97a6',lineHeight:'1.7',marginTop:'8px'}},['Zur Ausübung dieser Rechte schreib uns an ',el('a',{href:'mailto:admin.tacticrogue@gmail.com',style:{color:'#5ec26a',textDecoration:'none'}},'admin.tacticrogue@gmail.com'),'.']));
+  inner.appendChild(s5);
+
+  inner.appendChild(section('6. Speicherdauer',[
+    'Account-Daten werden gespeichert, solange dein Account besteht. Local-Storage-Daten werden von deinem Browser verwaltet. Wenn du deinen Account löschen lässt, werden alle serverseitig gespeicherten Daten dauerhaft entfernt.'
+  ]));
+
+  inner.appendChild(section('7. Kinder',[
+    'TacticRogue richtet sich an ein allgemeines Publikum und nicht gezielt an Kinder unter 13 Jahren. Wir erheben wissentlich keine personenbezogenen Daten von Kindern. Falls du der Meinung bist, dass ein Kind solche Daten angegeben hat, kontaktiere uns bitte — wir entfernen die Daten umgehend.'
+  ]));
+
+  inner.appendChild(section('8. Drittanbieter',[
+    'Wir nutzen Supabase für Authentifizierung und Cloud-Datenspeicherung. Deren Datenschutzerklärung ist unter supabase.com/privacy einsehbar. Kein anderer Drittanbieter hat Zugriff auf deine Daten.'
+  ]));
+
+  inner.appendChild(section('9. Änderungen dieser Erklärung',[
+    'Wir können diese Datenschutzerklärung gelegentlich aktualisieren. Wesentliche Änderungen werden durch Aktualisierung des Datums oben kenntlich gemacht.'
+  ]));
+
+  const s10=el('div',{style:{marginBottom:'24px'}});
+  s10.appendChild(el('div',{style:{fontSize:'13px',fontWeight:'800',color:'#f0f3f7',marginBottom:'8px'}},['10. Kontakt']));
+  const s10txt=el('div',{style:{fontSize:'12px',color:'#8b97a6',lineHeight:'1.7'}});
+  s10txt.innerHTML='Fragen zu dieser Datenschutzerklärung oder deinen Daten? Schreib uns an <a href="mailto:admin.tacticrogue@gmail.com" style="color:#5ec26a;text-decoration:none">admin.tacticrogue@gmail.com</a>.';
+  s10.appendChild(s10txt);
+  inner.appendChild(s10);
+
+  wrap.appendChild(inner);
+  main.appendChild(wrap);
+}
+function renderTerms(main){
+  const wrap=el('div',{style:{position:'absolute',inset:'0',overflowY:'auto',padding:'24px 20px 48px',boxSizing:'border-box'}});
+  const inner=el('div',{style:{maxWidth:'640px',margin:'0 auto',width:'100%'}});
+
+  inner.appendChild(el('button',{class:'rp-zuruck-btn',style:{marginBottom:'20px'},onclick:()=>{setState({phase:'intro'});render();}},'← Zurück'));
+  inner.appendChild(el('div',{style:{fontSize:'26px',fontWeight:'900',color:'#f0f3f7',marginBottom:'4px',letterSpacing:'-0.5px'}},['Nutzungsbedingungen']));
+  inner.appendChild(el('div',{style:{fontSize:'11px',color:'rgba(255,255,255,.3)',marginBottom:'28px'}},['Zuletzt aktualisiert: 16. Juni 2026']));
+
+  function sec(title, paragraphs){
+    const s=el('div',{style:{marginBottom:'22px'}});
+    s.appendChild(el('div',{style:{fontSize:'13px',fontWeight:'800',color:'#f0f3f7',marginBottom:'8px'}},[title]));
+    paragraphs.forEach(p=>{
+      const d=el('div',{style:{fontSize:'12px',color:'#8b97a6',lineHeight:'1.7',marginBottom:'6px'}});
+      d.innerHTML=p;
+      s.appendChild(d);
+    });
+    return s;
+  }
+  function ul(items){
+    const d=el('div',{style:{display:'flex',flexDirection:'column',gap:'5px',margin:'6px 0 6px 0'}});
+    items.forEach(html=>{
+      const row=el('div',{style:{display:'flex',gap:'9px',alignItems:'flex-start'}});
+      const dot=el('div',{style:{width:'4px',height:'4px',borderRadius:'50%',background:'#5ec26a',flexShrink:'0',marginTop:'6px'}});
+      const txt=el('div',{style:{fontSize:'12px',color:'#8b97a6',lineHeight:'1.65'}});
+      txt.innerHTML=html;
+      row.appendChild(dot);row.appendChild(txt);d.appendChild(row);
+    });
+    return d;
+  }
+
+  inner.appendChild(sec('1. Geltungsbereich',[
+    'Diese Nutzungsbedingungen regeln die Nutzung des kostenlosen Browserspiels <strong style="color:#d0d9e4">TacticRogue</strong> (nachfolgend „das Spiel"). Mit der Nutzung des Spiels erklärst du dich mit diesen Bedingungen einverstanden. Wenn du nicht einverstanden bist, bitte das Spiel nicht nutzen.',
+    'TacticRogue ist ein nicht-kommerzielles Freizeitprojekt. Es besteht kein Anspruch auf dauerhafte Verfügbarkeit.',
+  ]));
+
+  inner.appendChild(sec('2. Nutzung des Spiels',[
+    'Das Spiel darf ausschließlich zur privaten, nicht-kommerziellen Unterhaltung genutzt werden. Untersagt ist insbesondere:',
+  ]));
+  const s2=inner.lastChild;
+  s2.appendChild(ul([
+    'automatisiertes Abrufen von Inhalten (Scraping, Bots, Crawler)',
+    'Manipulation, Reverse Engineering oder Eingriffe in den Spielcode',
+    'Nutzung zu gewerblichen Zwecken ohne ausdrückliche schriftliche Zustimmung',
+    'jede Nutzung, die gegen geltendes deutsches Recht oder die Rechte Dritter verstößt',
+  ]));
+
+  inner.appendChild(sec('3. Geistiges Eigentum',[
+    'Design, Spielmechanik, Code und sonstige originäre Inhalte von TacticRogue sind urheberrechtlich geschützt (§ 2 UrhG). Screenshots und Spielergebnisse dürfen für private, nicht-kommerzielle Zwecke geteilt werden.',
+    'Namen von Fußballern, Vereinen und Ligen werden als faktische Verweise im Rahmen des Spiels verwendet und sind Eigentum der jeweiligen Rechteinhaber.',
+  ]));
+
+  inner.appendChild(sec('4. Disclaimer – Inoffizielles Fan-Spiel',[
+    'TacticRogue ist ein inoffizielles Fan-Spiel und steht in keiner Verbindung zu, wird nicht gefördert von und ist nicht lizenziert durch die FIFA, UEFA, DFL, DFB oder andere Fußballverbände, Ligen oder Vereine.',
+    'Alle verwendeten Vereins- und Spielernamen sowie sonstige geschützte Bezeichnungen sind Eigentum der jeweiligen Rechteinhaber. Die Verwendung erfolgt ausschließlich zu nicht-kommerziellen Unterhaltungszwecken. Bewertungen und Spielergebnisse sind fiktiv und haben keinen offiziellen Charakter.',
+  ]));
+
+  inner.appendChild(sec('5. Haftungsausschluss',[
+    'Das Spiel wird kostenlos und ohne Mängelgewähr bereitgestellt. Da es sich um eine unentgeltliche Leistung handelt, haftet der Anbieter gemäß § 521 BGB nur für Vorsatz und grobe Fahrlässigkeit.',
+    'Für Schäden durch vorübergehende Nichtverfügbarkeit, Datenverlust oder technische Fehler wird – soweit gesetzlich zulässig – keine Haftung übernommen. Gesetzliche Haftungsansprüche bei Verletzung von Leib, Leben oder Gesundheit bleiben unberührt.',
+  ]));
+
+  inner.appendChild(sec('6. Spielerdaten und Datenschutz',[
+    'Informationen zur Verarbeitung personenbezogener Daten findest du in unserer <a href="#" onclick="event.preventDefault();event.stopPropagation();setState({phase:\'privacy\'});render()" style="color:#5ec26a;text-decoration:none">Datenschutzerklärung</a>.',
+  ]));
+
+  inner.appendChild(sec('7. Änderungen der Nutzungsbedingungen',[
+    'Wir behalten uns vor, diese Nutzungsbedingungen jederzeit anzupassen. Wesentliche Änderungen werden durch Aktualisierung des Datums oben kenntlich gemacht. Die weitere Nutzung des Spiels nach einer Änderung gilt als Zustimmung zu den geänderten Bedingungen.',
+  ]));
+
+  inner.appendChild(sec('8. Anwendbares Recht und Gerichtsstand',[
+    'Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts (CISG). Gerichtsstand ist – soweit gesetzlich zulässig – Deutschland.',
+  ]));
+
+  const s9=el('div',{style:{marginBottom:'22px'}});
+  s9.appendChild(el('div',{style:{fontSize:'13px',fontWeight:'800',color:'#f0f3f7',marginBottom:'8px'}},['9. Kontakt']));
+  const s9txt=el('div',{style:{fontSize:'12px',color:'#8b97a6',lineHeight:'1.7'}});
+  s9txt.innerHTML='Fragen zu diesen Nutzungsbedingungen? Schreib uns an <a href="mailto:admin.tacticrogue@gmail.com" style="color:#5ec26a;text-decoration:none">admin.tacticrogue@gmail.com</a>.';
+  s9.appendChild(s9txt);
+  inner.appendChild(s9);
+
+  wrap.appendChild(inner);
+  main.appendChild(wrap);
 }
 function renderRunHistory(main){
   const hist=loadRunHistory();
