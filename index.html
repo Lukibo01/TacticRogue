@@ -52,6 +52,9 @@ input,select,textarea{font-family:inherit}
 }
 .brand{display:flex;align-items:center;gap:11px;text-decoration:none;cursor:pointer;user-select:none}
 .brand-logo{width:34px;height:34px;flex-shrink:0}
+/* New logo: full (logo+text) on desktop, icon-only on mobile */
+.brand-logo-full{height:34px;width:auto;display:block;flex-shrink:0}
+.brand-logo-icon{height:30px;width:auto;display:none;flex-shrink:0}
 .brand-wordmark{display:flex;flex-direction:column;line-height:1;gap:1px}
 .brand-wordmark-top{font-size:13px;font-weight:900;letter-spacing:2.5px;color:#5ec269;text-transform:uppercase}
 .brand-wordmark-sub{font-size:8px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.65);text-transform:uppercase}
@@ -2088,6 +2091,9 @@ input,select,textarea{font-family:inherit}
   /* Taller header moves separator line lower + pushes all game content down */
   .header{height:46px;padding-top:max(0px,env(safe-area-inset-top));padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right));gap:8px;}
   .brand-logo{width:26px;height:26px;}
+  /* Mobile (landscape): show icon-only logo, hide the full logo+text */
+  .brand-logo-full{display:none!important;}
+  .brand-logo-icon{display:block!important;height:28px;}
   .brand-wordmark-top{font-size:11px;letter-spacing:1.5px;}
   .brand-wordmark-sub{font-size:7px;letter-spacing:1.8px;}
   .league-banner{width:fit-content;min-width:0;padding:3px 20px;border-radius:999px;gap:1px;white-space:nowrap;}
@@ -3132,20 +3138,8 @@ input,select,textarea{font-family:inherit}
   <header class="header">
     <!-- LOGO -->
     <div class="brand" id="btnHome" title="Startscreen">
-      <svg class="brand-logo" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="4" y="4" width="26" height="26" rx="1.5" stroke="#5EC26A" stroke-width="1.3"/>
-        <line x1="4" y1="17" x2="30" y2="17" stroke="#5EC26A" stroke-width="1.1"/>
-        <circle cx="17" cy="17" r="4.2" stroke="#5EC26A" stroke-width="1.1"/>
-        <circle cx="17" cy="17" r="1.6" fill="#5EC26A"/>
-        <!-- penalty box top -->
-        <rect x="10.5" y="4" width="13" height="6" rx=".5" stroke="#5EC26A" stroke-width=".75" opacity=".5"/>
-        <!-- penalty box bottom -->
-        <rect x="10.5" y="24" width="13" height="6" rx=".5" stroke="#5EC26A" stroke-width=".75" opacity=".5"/>
-      </svg>
-      <div class="brand-wordmark">
-        <div class="brand-wordmark-top">Tactic</div>
-        <div class="brand-wordmark-sub">Roguelike</div>
-      </div>
+      <img class="brand-logo-full" src="logo-header.svg" alt="TacticRogue">
+      <img class="brand-logo-icon" src="logo-icon.svg" alt="TacticRogue">
     </div>
     <!-- LEAGUE BANNER (ingame) / LEVEL BANNER (intro) -->
     <div class="league-banner l0" id="leagueBanner">
@@ -3302,6 +3296,11 @@ async function syncToCloud() {
   if (error) { console.warn('[Tactic] Sync error:', error.message); updateSyncBadge(false); }
   else { updateSyncBadge(true); }
 }
+
+// Flush a pending sync before the page is hidden/reloaded so a fresh level-up isn't lost to the 2s debounce
+function _flushSyncNow(){ if(supaUser){ if(_syncTimer){clearTimeout(_syncTimer);_syncTimer=null;} syncToCloud(); } }
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='hidden') _flushSyncNow(); });
+window.addEventListener('pagehide', _flushSyncNow);
 
 async function loadFromCloud() {
   if (!supaUser) return;
@@ -5003,6 +5002,25 @@ async function fbLoadRanking(){
     return{ok:false,err:e.message==='timeout'?'Zeitüberschreitung — prüfe Firebase Rules':'Netzwerkfehler: '+e.message,rows:[]};
   }
 }
+// Cross-check level/XP against the Firebase ranking. Firebase is written immediately on every
+// level-up (no debounce), so it never lags like the Supabase save → use it to recover progress
+// that a missed/late sync dropped. Checks the account id and the device id (covers old entries).
+async function reconcileLevelFromRanking(){
+  try{
+    if(typeof supaUser==='undefined' || !supaUser) return;
+    const ids=['acct_'+supaUser.id, localStorage.getItem(KEYS.playerId)].filter(Boolean);
+    let best=null;
+    for(const id of ids){
+      try{ const r=await fetch(`${_FB_URL}/rankings/${id}.json`); const d=await r.json();
+        if(d && typeof d.level==='number' && (!best || d.level>best.level)) best=d; }catch(e){}
+    }
+    if(best && best.level>(state.playerLevel||1)){
+      setState({playerLevel:best.level, playerXP:(typeof best.xp==='number'?best.xp:state.playerXP)});
+      savePlayerLevel(); // persist locally + push corrected level up to Supabase
+      if(state.phase==='intro') render();
+    }
+  }catch(e){}
+}
 function loadPendingRewards(){try{return JSON.parse(localStorage.getItem(KEYS.pendingRewards)||'[]')}catch(e){return[]}}
 function savePendingRewards(){try{localStorage.setItem(KEYS.pendingRewards,JSON.stringify(state.pendingLevelRewards))}catch(e){} scheduleSync&&scheduleSync();}
 
@@ -6145,12 +6163,20 @@ window._reloadCloudData = (data) => {
     if(_mergedT.length!==_cloudT.length && typeof writeSavedTactics==='function') writeSavedTactics(); // local had extras → persist + push union to cloud
   }
   if (Array.isArray(data.collection))     setState({collection: data.collection});
-  if (data.player_level != null)          setState({playerLevel: data.player_level, playerXP: data.player_xp || 0});
+  if (data.player_level != null) {
+    // Cloud must NEVER reduce level/XP — the 2s sync debounce can lag behind a level-up,
+    // so a stale cloud value must not overwrite higher local progress.
+    const _cL=data.player_level, _cX=data.player_xp||0, _lL=state.playerLevel||1, _lX=state.playerXP||0;
+    if (_cL>_lL || (_cL===_lL && _cX>_lX)) setState({playerLevel:_cL, playerXP:_cX});
+    else if ((_cL<_lL || (_cL===_lL && _cX<_lX)) && typeof savePlayerLevel==='function') savePlayerLevel(); // local ahead → persist + push up to cloud
+  }
   if (Array.isArray(data.pending_rewards))setState({pendingLevelRewards: data.pending_rewards});
   if (data.username) setState({playerName: data.username});
   // Active run — store for intro screen
   window._pendingActiveRun = data.active_run || null;
   render();
+  // Recover level from the Firebase ranking (written immediately on level-up — never lags like the Supabase sync)
+  if (typeof reconcileLevelFromRanking==='function') reconcileLevelFromRanking();
 };
 
 // ── ACTIVE RUN SYNC ──────────────────────────────────────────────────────────
