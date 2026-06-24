@@ -2140,6 +2140,8 @@ input,select,textarea{font-family:inherit}
   .intro-right-wrap{width:48%;}
   .intro-right svg{height:97%;transform:translate(-78%,-68%) rotateX(6deg) rotateY(-6deg) rotate(-4deg);}
   /* ── M-FIX · startscreen controls + in-game header (landscape mobile only) ── */
+  /* Startscreen scrollable on mobile — content can exceed the short landscape height */
+  .intro-wrap{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:46px;}
   /* Language toggle: move out of the hero text to the top-right */
   .intro-lang{top:8px!important;left:auto!important;right:10px!important;}
   .intro-lang button{padding:3px 7px!important;font-size:8.5px!important;}
@@ -6151,8 +6153,21 @@ window._gameState = () => state;
 window._showToast = (msg) => { if(typeof showToast === 'function') showToast(msg); };
 // Hot-reload cloud data into running state (called after login)
 window._reloadCloudData = (data) => {
-  if (Array.isArray(data.trophies))       setState({trophies: data.trophies});
-  if (data.league_trophies)               setState({leagueTrophies: data.league_trophies});
+  if (Array.isArray(data.trophies)) {
+    // Trophies only accumulate — keep the larger set so a stale cloud can't wipe them.
+    const _locTr=state.trophies||[];
+    if (data.trophies.length>=_locTr.length) setState({trophies: data.trophies});
+    else if (typeof saveTrophies==='function') saveTrophies(); // local has more → keep + push up
+  }
+  if (data.league_trophies) {
+    // League trophies only accumulate — max count per league (impossible-mode unlock depends on l4).
+    const _m=Object.assign({}, state.leagueTrophies||{});
+    let _ahead=false;
+    for (const k in data.league_trophies){ const v=data.league_trophies[k]||0; if(v>(_m[k]||0)) _m[k]=v; }
+    for (const k in _m){ if((_m[k]||0)>((data.league_trophies[k])||0)) _ahead=true; }
+    setState({leagueTrophies:_m});
+    if (_ahead && typeof saveLeagueTrophies==='function') saveLeagueTrophies(); // local ahead → push merged up
+  }
   if (Array.isArray(data.saved_tactics)) {
     // Merge cloud + local by name → never lose locally-saved tactics, and an empty
     // cloud array can't wipe local ones. Cloud wins on same-name conflict; cap at 8.
@@ -6162,7 +6177,12 @@ window._reloadCloudData = (data) => {
     setState({savedTactics: _mergedT});
     if(_mergedT.length!==_cloudT.length && typeof writeSavedTactics==='function') writeSavedTactics(); // local had extras → persist + push union to cloud
   }
-  if (Array.isArray(data.collection))     setState({collection: data.collection});
+  if (Array.isArray(data.collection)) {
+    // Collection grows over time — keep the larger one so a stale cloud can't wipe cards.
+    const _locC=state.collection||[];
+    if (data.collection.length>=_locC.length) setState({collection: data.collection});
+    else if (typeof saveCollection==='function') saveCollection(); // local has more → keep + push up
+  }
   if (data.player_level != null) {
     // Cloud must NEVER reduce level/XP — the 2s sync debounce can lag behind a level-up,
     // so a stale cloud value must not overwrite higher local progress.
@@ -6285,8 +6305,8 @@ function updateHeader(){
   if(btnCollection){
     btnCollection.style.display=isIntro?'':'none';
     const _cTxt=btnCollection.querySelector('.btn-hdr-txt');
-    if(_cTxt)_cTxt.textContent=colCount>0?`${t('hdr.collection')} ×${colCount}`:t('hdr.collection');
-    else btnCollection.textContent=colCount>0?`${t('hdr.collection')} ×${colCount}`:t('hdr.collection');
+    if(_cTxt)_cTxt.textContent=t('hdr.collection');
+    else btnCollection.textContent=t('hdr.collection');
   }
   const _oldBadge=$('#headerModeBadge');if(_oldBadge)_oldBadge.remove();
   const _rkBtn=$('#btnRanking');if(_rkBtn){const _rkTxt=_rkBtn.querySelector('.btn-hdr-txt');if(_rkTxt)_rkTxt.textContent=t('nav.ranking');}
@@ -6450,7 +6470,14 @@ function restoreActiveRun(run){
 }
 
 function renderIntro(main){
-  const supLeagueWon=(state.leagueTrophies&&(state.leagueTrophies['l4']||0)>=1);
+  // Impossible-mode unlock — any persisted signal counts (league trophy, championship trophy,
+  // a won run in history, or the sticky flag). Once detected it's captured permanently so it never re-locks.
+  const _wonRun=(()=>{try{return JSON.parse(localStorage.getItem(KEYS.runHistory)||'[]').some(r=>r&&r.won)}catch(e){return false}})();
+  const supLeagueWon=(state.leagueTrophies&&(state.leagueTrophies['l4']||0)>=1)
+    || (state.trophies&&state.trophies.length>=1)
+    || _wonRun
+    || (localStorage.getItem('tactic_imp_unlocked')==='1');
+  if(supLeagueWon && localStorage.getItem('tactic_imp_unlocked')!=='1'){ try{localStorage.setItem('tactic_imp_unlocked','1')}catch(e){} }
   const uniqueCount=new Set((state.collection||[]).map(p=>p.name)).size;
   const colUnlocked=uniqueCount>=200;
   const colPct=Math.min(100,Math.round(uniqueCount/200*100));
@@ -8891,7 +8918,7 @@ function finishMatch(){
       addLeagueTrophy(state.league);
       if(state.league>=LEAGUES.length-1){
         // Run complete — Champion pack (index 6) as reward
-        addTrophy();awardRunXP(true);saveRunToHistory(true);window._clearActiveRun&&window._clearActiveRun();
+        addTrophy();try{localStorage.setItem('tactic_imp_unlocked','1')}catch(e){} awardRunXP(true);saveRunToHistory(true);window._clearActiveRun&&window._clearActiveRun();
         const pool=(state.impossibleMode||state.collectionMode)?PACK_CONFIG_IMPOSSIBLE:PACK_CONFIG;
         setState({packCards:generatePackCards(pool.length-1)});
 
